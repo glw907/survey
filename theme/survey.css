@@ -153,4 +153,10 @@
     --motion-quick: 0ms;
     --motion-base: 0ms;
   }
+  .drawer-side,
+  .drawer-side > :not(.drawer-overlay),
+  .modal,
+  .modal-box {
+    transition-duration: 0ms;
+  }
 }

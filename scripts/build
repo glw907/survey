@@ -35,13 +35,18 @@ function decls(group, indent = "  ") {
 const header = (what) =>
   `/* ${what} Built from tokens.json by scripts/build. Do not edit. */\n`;
 
-const reducedMotion = (indent = "") =>
-  `${indent}@media (prefers-reduced-motion: reduce) {\n` +
-  `${indent}  :root {\n` +
-  `${indent}    --motion-quick: 0ms;\n` +
-  `${indent}    --motion-base: 0ms;\n` +
-  `${indent}  }\n` +
-  `${indent}}\n`;
+// daisyUI stills its own toast, spinner, and collapse under reduce, but its drawer and modal
+// still slide, so the theme sheet zeroes them too.
+const DAISY_SLIDERS = [".drawer-side", ".drawer-side > :not(.drawer-overlay)", ".modal", ".modal-box"];
+
+const reducedMotion = (daisy) =>
+  `@media (prefers-reduced-motion: reduce) {\n` +
+  `  :root {\n` +
+  `    --motion-quick: 0ms;\n` +
+  `    --motion-base: 0ms;\n` +
+  `  }\n` +
+  (daisy ? `  ${DAISY_SLIDERS.join(",\n  ")} {\n    transition-duration: 0ms;\n  }\n` : "") +
+  `}\n`;
 
 function themeBlock({ name, isDefault, prefersDark, scheme, colors }) {
   return (
@@ -64,7 +69,7 @@ const surveyCss =
   themeBlock({ name: "survey-dark", isDefault: false, prefersDark: true, scheme: "dark", colors: tokens.color.dark }) +
   `\n@theme {\n${decls({ ...tokens.font, ...tokens.text, ...tokens.spacing })}\n}\n\n` +
   `:root {\n${decls(tokens.motion)}\n}\n\n` +
-  reducedMotion();
+  reducedMotion(true);
 
 const surveyVarsCss =
   header("Survey variables: the same values as theme/survey.css as plain CSS variables, for an app with no daisyUI.") +
@@ -77,7 +82,7 @@ const surveyVarsCss =
     ...tokens.motion,
   })}\n}\n\n` +
   `@media (prefers-color-scheme: dark) {\n  :root {\n${decls(tokens.color.dark, "    ")}\n  }\n}\n\n` +
-  reducedMotion();
+  reducedMotion(false);
 
 function tokenTable() {
   const modes = (name) => `| \`--${name}\` | \`${value(tokens.color.light[name])}\` | \`${value(tokens.color.dark[name])}\` |`;
