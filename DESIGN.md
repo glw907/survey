@@ -1,6 +1,6 @@
 # Survey design guide
 
-Survey is the house style for every house tool. Its look comes from USGS topographic quadrangle maps: paper-toned grounds, ink text, water blue, contour brown, and a few map details. It reads as a deliberate identity while staying on stock daisyUI 5 and Tailwind 4. Read this file first, then take the recipe that matches your app.
+Survey is the house style for every house tool. Its look comes from USGS topographic quadrangle maps: paper-toned grounds, ink text, water blue, contour brown, and a few map details. It reads as a deliberate identity while staying on stock daisyUI 5 and Tailwind 4. Read this file first, then take the recipe that matches your app. The approved specimen of 2026-10-07 is in the history of `glw907/cairn-themes` at commit `c19e7ac`, under `survey-theme/reference/`.
 
 ## Principles
 
