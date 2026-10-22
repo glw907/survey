@@ -1,0 +1,17 @@
+/* Gate only; never shipped. Maps cairn's code roles the way a cairn site gets them, so
+   `cairn-audit --rule theme-contrast` measures the pairs a site renders. The five syntax colors
+   come from Survey's --site-code-* tokens; bg, ink, and punct are cairn's own defaults
+   (cairn-public.css). */
+@import "../theme/survey.css";
+
+:root,
+[data-theme] {
+  --cairn-code-bg: var(--color-base-200);
+  --cairn-code-ink: var(--color-base-content);
+  --cairn-code-punct: var(--color-muted);
+  --cairn-code-comment: var(--site-code-comment);
+  --cairn-code-keyword: var(--site-code-keyword);
+  --cairn-code-string: var(--site-code-string);
+  --cairn-code-function: var(--site-code-function);
+  --cairn-code-number: var(--site-code-number);
+}

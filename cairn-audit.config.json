@@ -1,7 +1,7 @@
 {
   "public": {
     "scope": ["theme"],
-    "themeRoots": ["theme"],
-    "stylesheets": ["theme/survey.css"]
+    "themeRoots": ["theme", "audit"],
+    "stylesheets": ["theme/survey.css", "audit/code-colors.css"]
   }
 }
