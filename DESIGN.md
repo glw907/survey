@@ -223,7 +223,6 @@ This follows Survey's wider rule of no shadows and no decorative effects.
 
 ### Durations and easings
 
-
 The research supports all four values. Both durations are IBM Carbon tokens: 150ms is `duration-moderate-01`
 (micro-interactions, small expansions) and 240ms is `duration-moderate-02` (expansions, system
 communication, toasts). Material 3 sits close by, with `short3` at 150ms and `medium1` at 250ms, and NN/g

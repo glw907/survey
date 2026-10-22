@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # Tags and publishes a release: scripts/release <version>. Run from a clean, up-to-date main
-# after the PR that bumps package.json and dates the CHANGELOG entry has merged.
+# after the PR that bumps package.json and dates the CHANGELOG entry has merged, and after npm ci.
 set -euo pipefail
 cd "$(dirname "$0")/.."
 

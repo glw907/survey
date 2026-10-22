@@ -8,7 +8,7 @@ node scripts/build --check
 # cairn-audit reports theme-contrast findings at advisory tier and never sets its exit code, so
 # the gate fails on any finding. The --cairn-code-* pairs report as unmeasured because Survey
 # names its code colors --site-code-*; those are not findings.
-report=$(npx cairn-audit --rule theme-contrast)
+report=$(node_modules/.bin/cairn-audit --rule theme-contrast)
 findings=$(grep ' advisory ' <<<"$report" | grep -v ': unmeasured: var(--cairn-code-' || true)
 if [ -n "$findings" ]; then
   echo "$findings" >&2
