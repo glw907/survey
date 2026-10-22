@@ -1,0 +1,9 @@
+{
+  "name": "survey",
+  "version": "0.0.0",
+  "description": "The house style: a daisyUI theme, shared CSS, and the design guide.",
+  "type": "module",
+  "license": "MIT",
+  "repository": "github:glw907/survey",
+  "files": ["theme", "DESIGN.md"]
+}

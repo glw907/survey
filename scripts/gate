@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+# The repo gate: every built file is current with tokens.json.
+set -euo pipefail
+cd "$(dirname "$0")/.."
+node scripts/build --check
+echo "gate: ok"

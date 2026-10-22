@@ -1,0 +1,152 @@
+#!/usr/bin/env node
+// Builds theme/survey.css, theme/survey-vars.css, and the token table in DESIGN.md from
+// tokens.json. With --check it writes nothing and exits 1 when a built file is stale.
+import { readFileSync, writeFileSync } from "node:fs";
+import { dirname, join } from "node:path";
+import { fileURLToPath } from "node:url";
+
+const root = join(dirname(fileURLToPath(import.meta.url)), "..");
+const read = (p) => readFileSync(join(root, p), "utf8");
+const tokens = JSON.parse(read("tokens.json"));
+
+const GENERIC_FAMILIES = new Set(["serif", "sans-serif", "monospace", "system-ui", "ui-monospace"]);
+
+function value(t) {
+  switch (t.$type) {
+    case "fontFamily":
+      return t.$value.map((f) => (GENERIC_FAMILIES.has(f) ? f : `"${f}"`)).join(", ");
+    case "cubicBezier":
+      return `cubic-bezier(${t.$value.join(", ")})`;
+    default:
+      return String(t.$value);
+  }
+}
+
+// One declaration per token, with its description as a comment above it.
+function decls(group, indent = "  ") {
+  return Object.entries(group)
+    .map(([name, t]) => {
+      const note = t.$description && t.$type === "color" ? `${indent}/* ${t.$description} */\n` : "";
+      return `${note}${indent}--${name}: ${value(t)};`;
+    })
+    .join("\n");
+}
+
+const header = (what) =>
+  `/* ${what} Built from tokens.json by scripts/build. Do not edit. */\n`;
+
+const reducedMotion = (indent = "") =>
+  `${indent}@media (prefers-reduced-motion: reduce) {\n` +
+  `${indent}  :root {\n` +
+  `${indent}    --motion-quick: 0ms;\n` +
+  `${indent}    --motion-base: 0ms;\n` +
+  `${indent}  }\n` +
+  `${indent}}\n`;
+
+function themeBlock({ name, isDefault, prefersDark, scheme, colors }) {
+  return (
+    `@plugin "daisyui/theme" {\n` +
+    `  name: "${name}";\n` +
+    `  default: ${isDefault};\n` +
+    `  prefersdark: ${prefersDark};\n` +
+    `  color-scheme: ${scheme};\n` +
+    `${decls(colors)}\n` +
+    `${decls(tokens.shape)}\n` +
+    `}\n`
+  );
+}
+
+const surveyCss =
+  header("Survey theme: the daisyUI 5 light and dark themes, the design scale, and the motion tokens.") +
+  `/* Import after tailwindcss and the daisyUI plugin. */\n\n` +
+  themeBlock({ name: "survey", isDefault: true, prefersDark: false, scheme: "light", colors: tokens.color.light }) +
+  `\n` +
+  themeBlock({ name: "survey-dark", isDefault: false, prefersDark: true, scheme: "dark", colors: tokens.color.dark }) +
+  `\n@theme {\n${decls({ ...tokens.font, ...tokens.text, ...tokens.spacing })}\n}\n\n` +
+  `:root {\n${decls(tokens.motion)}\n}\n\n` +
+  reducedMotion();
+
+const surveyVarsCss =
+  header("Survey variables: the same values as theme/survey.css as plain CSS variables, for an app with no daisyUI.") +
+  `\n:root {\n${decls({
+    ...tokens.color.light,
+    ...tokens.shape,
+    ...tokens.font,
+    ...tokens.text,
+    ...tokens.spacing,
+    ...tokens.motion,
+  })}\n}\n\n` +
+  `@media (prefers-color-scheme: dark) {\n  :root {\n${decls(tokens.color.dark, "    ")}\n  }\n}\n\n` +
+  reducedMotion();
+
+function tokenTable() {
+  const modes = (name) => `| \`--${name}\` | \`${value(tokens.color.light[name])}\` | \`${value(tokens.color.dark[name])}\` |`;
+  const one = ([name, t]) => `| \`--${name}\` | \`${value(t)}\` |`;
+  const rows = (g) => Object.entries(g).map(one).join("\n");
+  return [
+    "### Color",
+    "",
+    "| Token | Light | Dark |",
+    "| --- | --- | --- |",
+    Object.keys(tokens.color.light).map(modes).join("\n"),
+    "",
+    "### Shape",
+    "",
+    "| Token | Value |",
+    "| --- | --- |",
+    rows(tokens.shape),
+    "",
+    "### Type",
+    "",
+    "| Token | Value |",
+    "| --- | --- |",
+    rows({ ...tokens.font, ...tokens.text }),
+    "",
+    "### Spacing",
+    "",
+    "| Token | Value |",
+    "| --- | --- |",
+    rows(tokens.spacing),
+    "",
+    "### Motion",
+    "",
+    "| Token | Value | Use |",
+    "| --- | --- | --- |",
+    Object.entries(tokens.motion)
+      .map(([name, t]) => `| \`--${name}\` | \`${value(t)}\` | ${t.$description} |`)
+      .join("\n"),
+    "",
+    "Under `prefers-reduced-motion: reduce`, both durations become `0ms`.",
+  ].join("\n");
+}
+
+const START = "<!-- tokens:start -->";
+const END = "<!-- tokens:end -->";
+const design = read("DESIGN.md");
+const [before] = design.split(START);
+const after = design.split(END)[1];
+if (after === undefined || before === design) throw new Error(`DESIGN.md needs ${START} and ${END} markers`);
+const designMd = `${before}${START}\n\n${tokenTable()}\n\n${END}${after}`;
+
+const outputs = {
+  "theme/survey.css": surveyCss,
+  "theme/survey-vars.css": surveyVarsCss,
+  "DESIGN.md": designMd,
+};
+
+const check = process.argv.includes("--check");
+let stale = 0;
+for (const [path, text] of Object.entries(outputs)) {
+  let current = "";
+  try {
+    current = read(path);
+  } catch {}
+  if (current === text) continue;
+  stale++;
+  if (check) console.error(`stale: ${path}`);
+  else writeFileSync(join(root, path), text);
+}
+if (check && stale) {
+  console.error("run scripts/build and commit the result");
+  process.exit(1);
+}
