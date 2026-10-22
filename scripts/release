@@ -1,0 +1,29 @@
+#!/usr/bin/env bash
+# Tags and publishes a release: scripts/release <version>. Run from a clean, up-to-date main
+# after the PR that bumps package.json and dates the CHANGELOG entry has merged, and after npm ci.
+set -euo pipefail
+cd "$(dirname "$0")/.."
+
+version=${1:?usage: scripts/release <version>}
+tag="v$version"
+
+[ "$(git branch --show-current)" = main ] || { echo "release from main" >&2; exit 1; }
+git fetch -q origin
+[ -z "$(git status --porcelain)" ] || { echo "working tree is not clean" >&2; exit 1; }
+[ "$(git rev-parse HEAD)" = "$(git rev-parse origin/main)" ] || { echo "main is not at origin/main" >&2; exit 1; }
+[ "$(node -p 'require("./package.json").version')" = "$version" ] || { echo "package.json version is not $version" >&2; exit 1; }
+notes=$(awk -v v="$version" '/^## \[/ { on = index($0, "[" v "]") } on' CHANGELOG.md | tail -n +2)
+[ -n "$notes" ] || { echo "CHANGELOG.md has no entry for $version" >&2; exit 1; }
+
+scripts/gate
+
+git tag -a "$tag" -m "Survey $version"
+git push origin "$tag"
+
+assets=()
+if [ -d vale/Survey ]; then
+  zip=$(mktemp -d)/Survey.zip
+  (cd vale && zip -qr "$zip" Survey)
+  assets+=("$zip")
+fi
+gh release create "$tag" --title "$tag" --notes "$notes" "${assets[@]}"
