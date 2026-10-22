@@ -1,0 +1,7 @@
+{
+  "public": {
+    "scope": ["theme"],
+    "themeRoots": ["theme"],
+    "stylesheets": ["theme/survey.css"]
+  }
+}
