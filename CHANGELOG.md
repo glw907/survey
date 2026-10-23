@@ -4,6 +4,19 @@ All notable changes to Survey are recorded here. The format follows [Keep a Chan
 
 ## [Unreleased]
 
+## [1.2.0] - 2026-10-22
+
+### Added
+
+- A "Corrections" section in the `survey` skill: when Geoff corrects Claude's wording, Claude logs the before, after, context, and reason to a private notes repo.
+- A "Releasing a change" section in the `survey` skill, with the release sequence from version bump to rollback.
+- One paragraph in `writing-voice.md` pointing a wording correction at that section.
+
+### Changed
+
+- The `survey` skill's description also triggers when Geoff corrects Claude's wording.
+- `technical-doc-go.md` names the vendored `Survey` style where it said the `glw907` overlay.
+
 ## [1.1.0] - 2026-10-22
 
 ### Added
