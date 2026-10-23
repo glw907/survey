@@ -4,6 +4,18 @@ All notable changes to Survey are recorded here. The format follows [Keep a Chan
 
 ## [Unreleased]
 
+## [1.1.0] - 2026-10-22
+
+### Added
+
+- The writing files in `skills/survey/writing/`: the base style (`writing-voice.md`), the authoring charter, and six registers (agent-facing, approval-brief, commit-and-pr, editor, technical-doc-go, technical-doc-web), copied unchanged from the workstation.
+- The `Survey` Vale style in `vale/Survey/`, seven rules copied from the `glw907` style, with the `EmDash` message naming `Survey.EmDash`.
+- `audit/code-colors.css`, a gate-only sheet that maps cairn's code roles onto the `--site-code-*` colors.
+
+### Changed
+
+- `scripts/gate` measures the code-color contrast pairs instead of excluding the `--cairn-code-` ones.
+
 ## [1.0.0] - 2026-10-22
 
 ### Added

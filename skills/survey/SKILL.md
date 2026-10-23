@@ -27,4 +27,17 @@ Run `scripts/build` after editing `tokens.json`, and `scripts/gate` before a com
 
 ## Writing
 
-The writing files arrive in Survey's next release and will live in `skills/survey/writing/`. Edit them in the Survey repo only. A workstation edit to a vendored copy is overwritten by the next update.
+The house writing register lives in `skills/survey/writing/`. Every audience starts from a published external standard, and these files record it.
+
+| Read | For |
+| --- | --- |
+| `writing-voice.md` | The base rule and the tells that hold for every audience |
+| `authoring-charter.md` | Which standard each audience starts from, and who owns an overlay |
+| `agent-facing.md` | Prompts, skills, agent definitions, and other text a model reads |
+| `approval-brief.md` | The brief that opens a design, plan, or PR for approval |
+| `commit-and-pr.md` | Commit messages and pull request bodies |
+| `editor.md` | End-user and editor docs for a non-technical reader |
+| `technical-doc-go.md` | Developer docs for Go repos (Go comments take the go-conventions skill) |
+| `technical-doc-web.md` | Developer docs for web code |
+
+The workstation's `writing-voice` skill picks a file for an audience. Code comments take the go-conventions, ts-conventions, svelte-conventions, or python-conventions skill, which stay workstation skills. Edit the writing files in the Survey repo only. A workstation edit to a vendored copy is overwritten by the next update.

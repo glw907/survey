@@ -5,10 +5,12 @@ The house style for every house tool: a daisyUI theme, a CSS-variable sheet, a D
 ## Use it
 
 ```bash
-npm install github:glw907/survey#v1.0.0
+npm install github:glw907/survey#v1.1.0
 ```
 
 This installs `theme/` and `DESIGN.md`. Read `DESIGN.md` first; it has a recipe for each kind of app. To roll back, pin the previous tag.
+
+Two other ways in carry the Vale style and the writing files. A repo that lints prose adds `Packages = https://github.com/glw907/survey/releases/download/v1.1.0/Survey.zip` to its `.vale.ini`, runs `vale sync`, and commits `.vale/styles/Survey/`. A workstation session reads the `survey` skill, which the workstation vendors from this repo.
 
 ## Work on it
 
