@@ -4,6 +4,12 @@ All notable changes to Survey are recorded here. The format follows [Keep a Chan
 
 ## [Unreleased]
 
+## [1.3.0] - 2026-10-24
+
+### Added
+
+- The empty "own" in `writing-voice.md`'s structural habits: a possessive plus "own" that adds nothing is a tell, and a real contrast keeps it.
+
 ## [1.2.0] - 2026-10-22
 
 ### Added
