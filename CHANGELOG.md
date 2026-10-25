@@ -6,6 +6,7 @@ All notable changes to Survey are recorded here. The format follows [Keep a Chan
 
 ### Changed
 
+- `DESIGN.md` asks every project to report a gap or hole it finds as an entry in Survey's `FRICTION.md`.
 - `DESIGN.md` opens by saying Survey is starting guidance that a project may depart from, with the WCAG floors as the exception, and the icon size and stroke rules read as defaults.
 
 ### Fixed
