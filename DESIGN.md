@@ -1,6 +1,6 @@
 # Survey design guide
 
-Survey is the house style for every house tool. Its look comes from USGS topographic quadrangle maps: paper-toned grounds, ink text, water blue, contour brown, and a few map details. It reads as a deliberate identity while staying on stock daisyUI 5 and Tailwind 4. Read this file first, then take the recipe that matches your app. The approved specimen of 2026-10-07 is in the history of `glw907/cairn-themes` at commit `c19e7ac`, under `survey-theme/reference/`.
+Survey is the house style for every house tool. Its look comes from USGS topographic quadrangle maps: paper-toned grounds, ink text, water blue, contour brown, and a few map details. It reads as a deliberate identity while staying on stock daisyUI 5 and Tailwind 4. Read this file first, then take the recipe that matches your app. Survey is starting guidance, not a set of fixed rules: a project departs from it where its needs differ, and says why in the change. The contrast and accessibility floors are the exception, since WCAG sets them. The approved specimen of 2026-10-07 is in the history of `glw907/cairn-themes` at commit `c19e7ac`, under `survey-theme/reference/`.
 
 ## Principles
 
@@ -207,8 +207,8 @@ A meaning not in the table takes the icon Lucide's search returns first for its 
 
 | For | Rule |
 | --- | --- |
-| Size | 16px beside interface text, in buttons, and at the start of a list row. 14px in a badge or a dense row of small text. 20px in primary navigation. 24px in an item tile. Take the size from the spacing tokens (`--spacing-16px`) or Tailwind's matching `size-4`, never a value between them. |
-| Stroke | `--icon-stroke`, set by `components.css`. Never pass `strokeWidth` to one icon. |
+| Size | 16px beside interface text, in buttons, and at the start of a list row. 14px in a badge or a dense row of small text. 20px in primary navigation. 24px in an item tile. Take the size from the spacing tokens (`--spacing-16px`) or Tailwind's matching `size-4`. |
+| Stroke | `--icon-stroke`, set by `components.css`. Change the token to change every icon, and leave `strokeWidth` off a single icon unless it needs a different weight. |
 | Color | An icon takes `currentColor`, the color of the text it sits beside, as Carbon also advises. A secondary icon, such as a list row's kind, takes `--color-muted`. A status icon takes its `--cairn-*-ink`, never the status fill. Icons have no fills, no duotone, no colored tile behind them, no gradient, and no shadow. |
 | Tile | Where an item needs a picture, such as a vault entry, the tile is a 24px ink icon centered in a 40px box (Tailwind's `size-10`) with a 1px `base-300` border and the `--radius-box` corner. |
 | Alignment | An icon beside text sits in an `inline-flex items-center` row with a 6px gap, centered on the text and never on its baseline. Beside text that wraps, the icon sits on the first line (`items-start`, with a top margin that centers it on that line). |

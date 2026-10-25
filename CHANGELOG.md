@@ -4,6 +4,10 @@ All notable changes to Survey are recorded here. The format follows [Keep a Chan
 
 ## [Unreleased]
 
+### Changed
+
+- `DESIGN.md` opens by saying Survey is starting guidance that a project may depart from, with the WCAG floors as the exception, and the icon size and stroke rules read as defaults.
+
 ### Fixed
 
 - `DESIGN.md` "Icons" says the cairn admin's default stroke is 1.75px, and that Survey's rule overrides it in a Survey site.
