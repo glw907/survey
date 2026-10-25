@@ -4,6 +4,10 @@ All notable changes to Survey are recorded here. The format follows [Keep a Chan
 
 ## [Unreleased]
 
+### Fixed
+
+- `DESIGN.md` "Icons" says the cairn admin's default stroke is 1.75px, and that Survey's rule overrides it in a Survey site.
+
 ## [1.4.0] - 2026-10-25
 
 ### Added

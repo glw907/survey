@@ -160,7 +160,7 @@ Stock daisyUI covers the rest. The Cancel button is a plain `btn btn-ghost`. A d
 
 ## Icons
 
-Survey's icon set is [Lucide](https://lucide.dev) (ISC license, about 1,900 icons). cairn-cms already ships it, so every house tool draws from one set. Lucide draws strokes on a 24px grid with round caps, which suits the ink-line look. A Svelte app installs `@lucide/svelte`, and an app with no framework copies inline SVG from `lucide-static`. Both put the `lucide` class on every icon, and `components.css` sets that class's stroke to `--icon-stroke` (1.5px) at every size. Lucide's stock stroke grows from 1.33px at 16px to 2px at 24px, which reads heavier than Survey's 1px borders.
+Survey's icon set is [Lucide](https://lucide.dev) (ISC license, about 1,900 icons). cairn-cms already ships it, so every house tool draws from one set. Lucide draws strokes on a 24px grid with round caps, which suits the ink-line look. A Svelte app installs `@lucide/svelte`, and an app with no framework copies inline SVG from `lucide-static`. Both put the `lucide` class on every icon, and `components.css` sets that class's stroke to `--icon-stroke` (1.5px) at every size. Lucide's stock stroke grows from 1.33px at 16px to 2px at 24px, which reads heavier than Survey's 1px borders. The cairn admin draws Lucide at 1.75px by default, set in its admin design system. Stroke weight is a site's design choice, so in a site that loads Survey, the `components.css` rule overrides that default (Survey's sublayer comes later in the cascade).
 
 ### When to use an icon
 
