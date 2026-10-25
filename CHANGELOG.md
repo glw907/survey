@@ -4,13 +4,17 @@ All notable changes to Survey are recorded here. The format follows [Keep a Chan
 
 ## [Unreleased]
 
+## [1.5.0] - 2026-10-25
+
 ### Changed
 
+- The `survey` skill's project rules say Survey is starting guidance, and ask a project to report each gap or hole as an entry in `FRICTION.md`.
 - `DESIGN.md` asks every project to report a gap or hole it finds as an entry in Survey's `FRICTION.md`.
 - `DESIGN.md` opens by saying Survey is starting guidance that a project may depart from, with the WCAG floors as the exception, and the icon size and stroke rules read as defaults.
 
 ### Fixed
 
+- `approval-brief.md` takes back the workstation's edits that had landed only in its vendored copy: the app is "the Approval Queue", and a packet that resends a sent-back part is a revision with a `## What changed` section.
 - `DESIGN.md` "Icons" says the cairn admin's default stroke is 1.75px, and that Survey's rule overrides it in a Survey site.
 
 ## [1.4.0] - 2026-10-25
