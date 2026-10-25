@@ -160,7 +160,7 @@ Stock daisyUI covers the rest. The Cancel button is a plain `btn btn-ghost`. A d
 
 ## Icons
 
-Survey's icon set is [Lucide](https://lucide.dev) (ISC license, about 2,100 icons). cairn-cms already ships it, so every house tool draws from one set. Lucide draws strokes on a 24px grid with round caps, which suits the ink-line look. A Svelte app installs `@lucide/svelte`, and an app with no framework copies inline SVG from `lucide-static`. Both put the `lucide` class on every icon, and `components.css` sets that class's stroke to `--icon-stroke` (1.5px) at every size. Lucide's stock stroke grows from 1.33px at 16px to 2px at 24px, which reads heavier than Survey's 1px borders.
+Survey's icon set is [Lucide](https://lucide.dev) (ISC license, about 1,900 icons). cairn-cms already ships it, so every house tool draws from one set. Lucide draws strokes on a 24px grid with round caps, which suits the ink-line look. A Svelte app installs `@lucide/svelte`, and an app with no framework copies inline SVG from `lucide-static`. Both put the `lucide` class on every icon, and `components.css` sets that class's stroke to `--icon-stroke` (1.5px) at every size. Lucide's stock stroke grows from 1.33px at 16px to 2px at 24px, which reads heavier than Survey's 1px borders.
 
 ### When to use an icon
 
@@ -170,7 +170,7 @@ An icon earns its place when it helps the reader find or recognize something the
 - Beside a navigation entry or a tab, when every sibling entry has one too.
 - At the start of a list row, to show the item's kind (a login, a card, a note).
 - Beside status text, in the status ink, so a warning or an error stands out from plain rows.
-- Alone in an icon-only button, only for close, search, and an overflow menu, and only in a toolbar or a field where space is tight. The button carries an accessible name.
+- Alone in an icon-only button, only for close, search, the navigation menu, and an overflow menu, and only in a toolbar or a field where space is tight. The button carries an accessible name.
 
 Leave the icon out in these places:
 
@@ -198,6 +198,8 @@ Use the same icon for the same meaning in every house tool, since an icon that c
 | Information | `info` |
 | Show or hide a value | `eye`, `eye-off` |
 | Expand a section | `chevron-down` |
+| Navigation menu | `menu` |
+| More actions | `ellipsis` |
 
 A meaning not in the table takes the icon Lucide's search returns first for its plain name. Add it to the table when a second tool uses it.
 
@@ -208,7 +210,7 @@ A meaning not in the table takes the icon Lucide's search returns first for its 
 | Size | 16px beside interface text, in buttons, and at the start of a list row. 14px in a badge or a dense row of small text. 20px in primary navigation. 24px in an item tile. Take the size from the spacing tokens (`--spacing-16px`) or Tailwind's matching `size-4`, never a value between them. |
 | Stroke | `--icon-stroke`, set by `components.css`. Never pass `strokeWidth` to one icon. |
 | Color | An icon takes `currentColor`, the color of the text it sits beside, as Carbon also advises. A secondary icon, such as a list row's kind, takes `--color-muted`. A status icon takes its `--cairn-*-ink`, never the status fill. Icons have no fills, no duotone, no colored tile behind them, no gradient, and no shadow. |
-| Tile | Where an item needs a picture, such as a vault entry, the tile is a 24px ink icon centered in a 40px box with a 1px `base-300` border and the `--radius-box` corner. |
+| Tile | Where an item needs a picture, such as a vault entry, the tile is a 24px ink icon centered in a 40px box (Tailwind's `size-10`) with a 1px `base-300` border and the `--radius-box` corner. |
 | Alignment | An icon beside text sits in an `inline-flex items-center` row with a 6px gap, centered on the text and never on its baseline. Beside text that wraps, the icon sits on the first line (`items-start`, with a top margin that centers it on that line). |
 | Accessibility | An icon beside a label is decorative: `@lucide/svelte` sets `aria-hidden="true"` when you pass no accessible name, and an inline SVG needs the attribute added. An icon-only button carries `aria-label`, and its icon meets 3:1 against its ground (WCAG 1.4.11). Its target is at least 24px square (WCAG 2.5.8), which daisyUI's `btn-sm btn-square` gives. |
 | Motion | Icons do not move. The one moving icon is daisyUI's `loading` spinner during a wait. An icon's color changes with its button's hover, at the button's speed. |
@@ -259,7 +261,7 @@ Use this for an app that cannot run daisyUI, such as Bulwark webmail.
 1. Import `survey/theme/survey-vars.css`. It sets the same variable names as the daisyUI theme on `:root`, with dark values under `prefers-color-scheme: dark`.
 2. Import `survey/theme/fonts.css` for the faces, and set `font-family` from `--font-body`, `--font-display`, and `--font-mono`.
 3. Map the app's own theming hooks to the variables: grounds to `--color-base-100` through `-300`, text to `--color-base-content` and `--color-muted`, accents to `--color-primary` and `--color-secondary`, and radii to `--radius-field` and `--radius-box`. Add the details that fit, copying a rule from `components.css` with its variables.
-4. For icons, inline the SVG from `lucide-static` and copy the `.lucide` stroke rule from `components.css`. The rule needs inline SVG, since `vector-effect` does not reach an icon drawn through `<use>` or an `<img>`.
+4. For icons, inline the SVG from `lucide-static` and copy the `.lucide` stroke rule from `components.css`. The rule needs inline SVG, since CSS cannot reach inside an icon loaded as an `<img>`.
 5. Check every pair you map against the contrast floor. A hook that cannot take a token's value is the app's finding to raise, not a reason to pick a nearby color.
 
 Motion: without daisyUI, the app's own CSS carries every transition, so write each one with the `--motion-*` variables from `survey-vars.css`. The reduced-motion block then covers them all. Keep to a short list: hover color, a toast or panel arriving, a panel closing.
