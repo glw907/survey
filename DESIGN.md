@@ -19,7 +19,7 @@ Survey is the house style for every house tool. Its look comes from USGS topogra
 | `tokens.json` | Every color, radius, font, size, spacing, and motion value, in light and dark (W3C DTCG). The one source. |
 | `theme/survey.css` | The daisyUI 5 `survey` and `survey-dark` themes, the design scale, and the motion variables. Built. |
 | `theme/survey-vars.css` | The same values as plain CSS variables, for an app with no daisyUI. Built. |
-| `theme/components.css` | The alert override and the `site-` signature details, as Tailwind `utilities` sublayers. |
+| `theme/components.css` | The alert, tab, and soft badge overrides, the icon stroke, and the `site-` signature details, as Tailwind `utilities` sublayers. |
 | `theme/fonts.css` | Self-hosted Fontsource imports for Spectral, Karla (with its real italic), and Monaspace Neon. |
 
 Run `scripts/build` after editing `tokens.json`. The gate (`scripts/gate`) fails when a built file is stale.
@@ -81,6 +81,7 @@ The `--cairn-*-ink` tokens are the status colors for alert headings. `--color-mu
 | `--size-selector` | `0.25rem` |
 | `--size-field` | `0.25rem` |
 | `--border` | `1px` |
+| `--icon-stroke` | `1.5px` |
 | `--depth` | `0` |
 | `--noise` | `0` |
 
@@ -157,9 +158,68 @@ The alert gets one override: a 4px status bar on a `base-200` field, with its te
 
 Stock daisyUI covers the rest. The Cancel button is a plain `btn btn-ghost`. A destructive button is `btn btn-outline btn-error`.
 
+## Icons
+
+Survey's icon set is [Lucide](https://lucide.dev) (ISC license, about 1,900 icons). cairn-cms already ships it, so every house tool draws from one set. Lucide draws strokes on a 24px grid with round caps, which suits the ink-line look. A Svelte app installs `@lucide/svelte`, and an app with no framework copies inline SVG from `lucide-static`. Both put the `lucide` class on every icon, and `components.css` sets that class's stroke to `--icon-stroke` (1.5px) at every size. Lucide's stock stroke grows from 1.33px at 16px to 2px at 24px, which reads heavier than Survey's 1px borders.
+
+### When to use an icon
+
+An icon earns its place when it helps the reader find or recognize something they will act on. NN/g's research finds that few icons are understood without a label (home, search, and print among them), so a visible text label goes beside nearly every icon. Put one in these places:
+
+- Beside the label of a frequent action, so the button is found at a glance (Add, Upload, Edit).
+- Beside a navigation entry or a tab, when every sibling entry has one too.
+- At the start of a list row, to show the item's kind (a login, a card, a note).
+- Beside status text, in the status ink, so a warning or an error stands out from plain rows.
+- Alone in an icon-only button, only for close, search, the navigation menu, and an overflow menu, and only in a toolbar or a field where space is tight. The button carries an accessible name.
+
+Leave the icon out in these places:
+
+- Reading text, headings, and article pages. A cairn site's prose carries no icons.
+- Every button in a row. When each one has an icon, none stands out. Cancel stays text.
+- Field labels, table headers, and section headings, where the words already do the work.
+- Anywhere the icon is the only signal. A state shown by an icon also shows in text.
+- In place of a signature detail. The benchmark triangle and the contour marks are drawn by `components.css`, never taken from the icon set.
+
+### One icon for one meaning
+
+Use the same icon for the same meaning in every house tool, since an icon that changes meaning between tools stops being read. These are the house choices, matched to what cairn-cms already uses:
+
+| Meaning | Lucide icon |
+| --- | --- |
+| Add | `plus` |
+| Edit | `square-pen` |
+| Delete | `trash-2` |
+| Close or dismiss | `x` |
+| Done or confirmed | `check` |
+| Search | `search` |
+| Settings | `settings` |
+| Opens another site | `external-link` |
+| Warning | `triangle-alert` |
+| Information | `info` |
+| Show or hide a value | `eye`, `eye-off` |
+| Expand a section | `chevron-down` |
+| Navigation menu | `menu` |
+| More actions | `ellipsis` |
+
+A meaning not in the table takes the icon Lucide's search returns first for its plain name. Add it to the table when a second tool uses it.
+
+### Treatment
+
+| For | Rule |
+| --- | --- |
+| Size | 16px beside interface text, in buttons, and at the start of a list row. 14px in a badge or a dense row of small text. 20px in primary navigation. 24px in an item tile. Take the size from the spacing tokens (`--spacing-16px`) or Tailwind's matching `size-4`, never a value between them. |
+| Stroke | `--icon-stroke`, set by `components.css`. Never pass `strokeWidth` to one icon. |
+| Color | An icon takes `currentColor`, the color of the text it sits beside, as Carbon also advises. A secondary icon, such as a list row's kind, takes `--color-muted`. A status icon takes its `--cairn-*-ink`, never the status fill. Icons have no fills, no duotone, no colored tile behind them, no gradient, and no shadow. |
+| Tile | Where an item needs a picture, such as a vault entry, the tile is a 24px ink icon centered in a 40px box (Tailwind's `size-10`) with a 1px `base-300` border and the `--radius-box` corner. |
+| Alignment | An icon beside text sits in an `inline-flex items-center` row with a 6px gap, centered on the text and never on its baseline. Beside text that wraps, the icon sits on the first line (`items-start`, with a top margin that centers it on that line). |
+| Accessibility | An icon beside a label is decorative: `@lucide/svelte` sets `aria-hidden="true"` when you pass no accessible name, and an inline SVG needs the attribute added. An icon-only button carries `aria-label`, and its icon meets 3:1 against its ground (WCAG 1.4.11). Its target is at least 24px square (WCAG 2.5.8), which daisyUI's `btn-sm btn-square` gives. |
+| Motion | Icons do not move. The one moving icon is daisyUI's `loading` spinner during a wait. An icon's color changes with its button's hover, at the button's speed. |
+
+Sources: NN/g, [Icon usability](https://www.nngroup.com/articles/icon-usability/); [Carbon icon usage](https://carbondesignsystem.com/elements/icons/usage/); WCAG 2.2 [SC 1.4.11](https://www.w3.org/WAI/WCAG22/Understanding/non-text-contrast.html) and [SC 2.5.8](https://www.w3.org/WAI/WCAG22/Understanding/target-size-minimum.html).
+
 ## Recipes
 
-Every recipe starts the same way: install `daisyui`, `tailwindcss`, and the three Fontsource packages that `theme/fonts.css` imports, and install Survey with `npm install github:glw907/survey#v<version>`.
+Every recipe starts the same way: install `daisyui`, `tailwindcss`, and the three Fontsource packages that `theme/fonts.css` imports, and install Survey with `npm install github:glw907/survey#v<version>`. A Svelte app with icons also installs `@lucide/svelte`; see [Icons](#icons).
 
 ### Cairn admin
 
@@ -180,6 +240,7 @@ Use this for a public, reading-first site on cairn-cms.
 3. Style prose from the specimen's details: links in `--color-primary` with a 1px underline offset 3px; a blockquote in italic Spectral, `--color-muted`, with a 2px `--color-secondary` rule and 14px left padding; inline code on `base-200` with a 3px radius and `--text-step-inline-code`; a code block on `base-200` with a 1px `base-300` border, a 4px radius, and 10px 12px padding; and the current page in the nav underlined 6px below in `--site-contour`.
 4. Color code from the `--site-code-*` tokens: keyword, string, number, function, and comment.
 5. Use all five signature details. The collar's two fields are site settings.
+6. Keep icons to the interface: the search field, the menu button, and a link that opens another site. Reading text, headings, and the collar carry none.
 
 Motion: a reading page has almost nothing to animate. Links and the index rail fade color at `--motion-quick`, and article text, images, and navigation appear without motion on load or scroll.
 
@@ -200,7 +261,8 @@ Use this for an app that cannot run daisyUI, such as Bulwark webmail.
 1. Import `survey/theme/survey-vars.css`. It sets the same variable names as the daisyUI theme on `:root`, with dark values under `prefers-color-scheme: dark`.
 2. Import `survey/theme/fonts.css` for the faces, and set `font-family` from `--font-body`, `--font-display`, and `--font-mono`.
 3. Map the app's own theming hooks to the variables: grounds to `--color-base-100` through `-300`, text to `--color-base-content` and `--color-muted`, accents to `--color-primary` and `--color-secondary`, and radii to `--radius-field` and `--radius-box`. Add the details that fit, copying a rule from `components.css` with its variables.
-4. Check every pair you map against the contrast floor. A hook that cannot take a token's value is the app's finding to raise, not a reason to pick a nearby color.
+4. For icons, inline the SVG from `lucide-static` and copy the `.lucide` stroke rule from `components.css`. The rule needs inline SVG, since CSS cannot reach inside an icon loaded as an `<img>`.
+5. Check every pair you map against the contrast floor. A hook that cannot take a token's value is the app's finding to raise, not a reason to pick a nearby color.
 
 Motion: without daisyUI, the app's own CSS carries every transition, so write each one with the `--motion-*` variables from `survey-vars.css`. The reduced-motion block then covers them all. Keep to a short list: hover color, a toast or panel arriving, a panel closing.
 
@@ -257,6 +319,10 @@ not, leave it instant.
 - **daisyUI button and field hover and focus**: keep daisyUI's stock 200ms color transitions and leave
   them alone. Overriding stock components breaks the DaisyUI-first rule for no gain. Focus outlines
   stay instant.
+- **List row hover background**: drop the fade and change it at once. The pointer crosses many rows
+  on its way to one, so a fade plays over and over and lags behind the pointer.
+- **Icons**: drop. An icon changes color with its button and never moves on its own, except daisyUI's
+  `loading` spinner during a wait.
 - **Alert or toast appearing**: keep. Use daisyUI's stock toast (250ms ease-out) where daisyUI is
   present. Elsewhere use `--motion-base` with `--motion-ease-enter`. Inline alerts that render with the
   page appear without motion.

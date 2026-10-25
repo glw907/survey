@@ -49,6 +49,7 @@
   --size-selector: 0.25rem;
   --size-field: 0.25rem;
   --border: 1px;
+  --icon-stroke: 1.5px;
   --depth: 0;
   --noise: 0;
 }
@@ -100,6 +101,7 @@
   --size-selector: 0.25rem;
   --size-field: 0.25rem;
   --border: 1px;
+  --icon-stroke: 1.5px;
   --depth: 0;
   --noise: 0;
 }

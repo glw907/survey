@@ -159,6 +159,38 @@
       color: var(--color-muted);
     }
 
+    /* Tab: daisyUI mixes an inactive tab to 50% of ink, under 4.5:1 on base-200, and has no
+       variable for it. Hover keeps daisyUI's full ink. */
+    .tabs > .tab:not(.tab-active, [aria-selected="true"], [aria-current="true"], [aria-current="page"], :checked, :has(:checked)) {
+      color: var(--color-muted);
+
+      @media (hover: hover) {
+        &:hover {
+          color: var(--color-base-content);
+        }
+      }
+    }
+
+    /* Soft badge: the text is the status fill, which is under 4.5:1 for warning and success in
+       light. --badge-color also tints the ground, so only the text takes the alert ink. */
+    .badge-soft.badge-warning {
+      color: var(--cairn-warning-ink);
+    }
+
+    .badge-soft.badge-success {
+      color: var(--cairn-success-ink);
+    }
+
+    /* Icon: Lucide draws a 2 stroke on its 24 grid, so the line grows with the icon. A
+       non-scaling stroke holds --icon-stroke at every size. Lucide puts .lucide on every icon. */
+    .lucide {
+      stroke-width: var(--icon-stroke);
+    }
+
+    .lucide * {
+      vector-effect: non-scaling-stroke;
+    }
+
     /* Link: the browser's default focus ring is replaced to match buttons and the rail. */
     a:focus-visible {
       outline: 2px solid var(--color-primary);

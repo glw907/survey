@@ -4,6 +4,19 @@ All notable changes to Survey are recorded here. The format follows [Keep a Chan
 
 ## [Unreleased]
 
+## [1.4.0] - 2026-10-25
+
+### Added
+
+- An "Icons" section in `DESIGN.md`: Lucide is the house icon set, with when to use an icon and when to leave it out, one icon per meaning, and the size, color, tile, alignment, accessibility, and motion rules.
+- The `--icon-stroke` token (1.5px) and a `components.css` rule that holds every Lucide icon's stroke at that width at any size.
+- Icon steps in the cairn site and theme-limited recipes, and list row hover and icons in the motion guide.
+
+### Fixed
+
+- An inactive daisyUI tab takes `--color-muted`, which meets 4.5:1 on base-200 in both schemes.
+- A soft warning or success badge takes its alert ink for its text, which meets 4.5:1 in light.
+
 ## [1.3.0] - 2026-10-24
 
 ### Added
