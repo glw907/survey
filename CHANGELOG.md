@@ -14,6 +14,7 @@ All notable changes to Survey are recorded here. The format follows [Keep a Chan
 
 ### Fixed
 
+- `approval-brief.md` takes back the workstation's edits that had landed only in its vendored copy: the app is "the Approval Queue", and a packet that resends a sent-back part is a revision with a `## What changed` section.
 - `DESIGN.md` "Icons" says the cairn admin's default stroke is 1.75px, and that Survey's rule overrides it in a Survey site.
 
 ## [1.4.0] - 2026-10-25
