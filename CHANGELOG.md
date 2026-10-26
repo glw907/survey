@@ -4,6 +4,13 @@ All notable changes to Survey are recorded here. The format follows [Keep a Chan
 
 ## [Unreleased]
 
+## [1.5.1] - 2026-10-25
+
+### Fixed
+
+- `approval-brief.md`'s packet, triage, and PR-brief exemplars take a neutral subject (a report-settings tool) in place of the retired docs-drafting tool and its blueprint-era plan files. Each exemplar keeps its shape: the same parts, asks, steps, and fences.
+- `BACKLOG.md` item #1 says "docs pages" where it said "blueprints".
+
 ## [1.5.0] - 2026-10-25
 
 ### Changed
