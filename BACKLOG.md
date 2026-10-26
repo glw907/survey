@@ -6,7 +6,7 @@
 
 - [x] **#1** Add the empty "own" to the writing tells, with a deterministic check `#improvement` `#survey` *(2026-10-22)*
   A possessive followed by "own" that adds nothing reads as machine-written: "the plugin's own settings page" says no more than "the plugin's settings page". Geoff ruled it must be caught in all house writing. Add it to `writing-voice.md`'s tells and give `tellgrader` a warn-level lexical check for `'s own`. Keep it a warning, because "own" that marks a contrast ("the site declares its own role names, or uses the default pair") is fine.
-  Batch 2: `tellgrader --register docs` exits 0 on both blueprints Geoff sent back for the empty "own" (record 7).
+  Batch 2: `tellgrader --register docs` exits 0 on both docs pages Geoff sent back for the empty "own" (record 7).
   Done: Survey PR #4 adds the tell (v1.3.0); the workstation PR adds the `empty-own` warning.
 
 ## Medium
