@@ -4,6 +4,12 @@ All notable changes to Survey are recorded here. The format follows [Keep a Chan
 
 ## [Unreleased]
 
+## [1.5.2] - 2026-10-27
+
+### Fixed
+
+- `approval-brief.md` says Geoff reads at a desk in a desktop browser, never on a phone. It had said he reads on a phone, which led a packet to argue for an option because it worked on one.
+
 ## [1.5.1] - 2026-10-25
 
 ### Fixed
