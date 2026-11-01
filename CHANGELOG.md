@@ -4,6 +4,10 @@ All notable changes to Survey are recorded here. The format follows [Keep a Chan
 
 ## [Unreleased]
 
+### Changed
+
+- A project reports a gap in `BACKLOG.md`. `FRICTION.md` is retired, and its open entries are backlog items #3 and #4.
+
 ## [1.5.2] - 2026-10-27
 
 ### Fixed

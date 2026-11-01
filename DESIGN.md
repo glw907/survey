@@ -4,7 +4,7 @@ Survey is the house style for every house tool. Its look comes from USGS topogra
 
 Survey is starting guidance, not a set of fixed rules. A project departs from it where its needs differ, and says why in the change. The contrast and accessibility floors are the exception, since WCAG sets them.
 
-A project reports back each gap or hole it finds: a value that fails contrast, a state Survey doesn't style, a case these rules don't cover, or a departure other projects would make too. It adds an entry to `FRICTION.md` in `glw907/survey`, as a direct commit to `main`, naming what it measured or saw and the fix it used. It then works around the gap in its own CSS until Survey ships the fix.
+A project reports back each gap or hole it finds: a value that fails contrast, a state Survey doesn't style, a case these rules don't cover, or a departure other projects would make too. It adds an item to `BACKLOG.md` in `glw907/survey`, as a direct commit to `main`, naming what it measured or saw and the fix it used. It then works around the gap in its own CSS and names the item, until Survey ships the fix.
 
 ## Principles
 
