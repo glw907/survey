@@ -11,6 +11,8 @@
 
 ## Medium
 
+- [ ] **#7** Add touch guidance for phone-width apps `#improvement` `#survey` *(2026-11-01)*
+  Found in phonebook's voicemail prototype at 375px. `DESIGN.md` has no rule for touch targets, hover-only states, or form text size. `btn-sm` measured about 34px tall, and daisyUI's `input` measured 14.875px at phonebook's 17px root, which makes iOS Safari zoom on focus. Phonebook overrides both below `sm`. State a minimum target size, a 16px floor for field text, and a pressed state for anything that shows hover.
 - [ ] **#6** Give an audio player a treatment `#improvement` `#survey` *(2026-11-01)*
   Found in phonebook's voicemail messages prototype. `DESIGN.md` says nothing about audio, so the browser's native `<audio controls>` shows in rows and cards, with its own colors and shape. Phonebook uses the native control in both its greeting and message rows. Say whether the native control is the house default, and how it sits beside `btn-sm` controls.
 - [ ] **#5** Say how a destructive action repeats down a list `#improvement` `#survey` *(2026-11-01)*
