@@ -14,7 +14,7 @@ Two other ways in carry the Vale style and the writing files. A repo that lints 
 
 ## Report a gap
 
-A project that finds a gap in Survey records it in `FRICTION.md`, then works around it in its own CSS until Survey ships the fix.
+A project that finds a gap in Survey records it in `BACKLOG.md`, then works around it in its own CSS until Survey ships the fix.
 
 ## Work on it
 
