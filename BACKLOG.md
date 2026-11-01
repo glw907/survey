@@ -11,6 +11,10 @@
 
 ## Medium
 
+- [ ] **#6** Give an audio player a treatment `#improvement` `#survey` *(2026-11-01)*
+  Found in phonebook's voicemail messages prototype. `DESIGN.md` says nothing about audio, so the browser's native `<audio controls>` shows in rows and cards, with its own colors and shape. Phonebook uses the native control in both its greeting and message rows. Say whether the native control is the house default, and how it sits beside `btn-sm` controls.
+- [ ] **#5** Say how a destructive action repeats down a list `#improvement` `#survey` *(2026-11-01)*
+  Found in phonebook's voicemail messages prototype. `DESIGN.md` makes a destructive button `btn btn-outline btn-error`, which assumes one on the screen. Three message rows gave three red outlines beside each row's Play, and the rule doesn't say whether a repeated row action stays red until its confirm step. Phonebook follows the rule as written. Add a line for the repeated case.
 - [ ] **#4** Style a plain `btn` inside `alert` `#bug` `#survey` *(2026-10-31)*
   Found in phonebook. Survey sets `.alert` to `--color-base-200`, and daisyUI 5's plain `.btn` uses the same color for its background with a border about 5% darker, so the button fills in like the alert behind it and reads as bold text (WCAG 1.4.11, borderline). Phonebook's Phones page key hold uses `btn btn-sm btn-outline` for the Clear action. Style a plain `.btn` inside `.alert` with a visible edge in `components.css`, or document `btn-outline` as the in-alert default in `DESIGN.md`.
 - [ ] **#3** Ship a text selection color `#bug` `#survey` *(2026-10-25)*
