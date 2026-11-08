@@ -68,11 +68,16 @@
     border-radius: var(--radius-field);
   }
 
-  /* The chassis draws a scroll-edge cue with two gradients; Survey has no gradients. */
+  /* The chassis draws a scroll-edge cue on code blocks and wide tables with two gradients; Survey
+     has no gradients, so the scrollbar alone shows there is more. */
   .prose pre {
     border: var(--border) solid var(--color-base-300);
     border-radius: var(--radius-box);
     padding: var(--spacing-10px) var(--spacing-12px);
+    background-image: none;
+  }
+
+  .prose .table-scroll {
     background-image: none;
   }
 

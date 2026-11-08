@@ -85,7 +85,12 @@ crawler skips it. -->
         {/each}
       </nav>
 
-      <button type="button" class="btn btn-ghost btn-sm font-body" onclick={flip}>
+      <!-- A ghost button set like a nav link, so the toggle doesn't outweigh the nav beside it. -->
+      <button
+        type="button"
+        class="btn btn-ghost btn-sm font-body font-normal text-base text-muted hover:text-base-content"
+        onclick={flip}
+      >
         {theme === themeConfig.dark ? 'Light theme' : 'Dark theme'}
       </button>
     </div>
