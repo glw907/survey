@@ -18,12 +18,11 @@
 
   /* Nothing casts a shadow. */
   --cairn-shadow: none;
-}
 
-/* Recipe step 4: code takes its colors from the --site-code-* tokens. Ground, ink, border, and
-   punctuation keep cairn's defaults (base-200, base-content, base-300, muted). */
-:root,
-[data-theme] {
+  /* Recipe step 4: code takes its colors from the --site-code-* tokens. Ground, ink, border, and
+     punctuation keep cairn's defaults (base-200, base-content, base-300, muted). Each reads a
+     token both daisyUI theme blocks set, and the site sets data-theme on <html>, so the one
+     :root declaration resolves under either scheme and beats the engine's @layer theme default. */
   --cairn-code-comment: var(--site-code-comment);
   --cairn-code-keyword: var(--site-code-keyword);
   --cairn-code-string: var(--site-code-string);
