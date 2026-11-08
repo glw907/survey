@@ -11,6 +11,8 @@
 
 ## Medium
 
+- [ ] **#8** Rename Survey's interface type steps clear of cairn's reading scale `#bug` `#survey` *(2026-11-07)*
+  Found while building `cairn-theme/`. cairn's chassis (cairn-cms 0.99.0-rc.4) owns `--text-step--1` through `--text-step-5` as its reading scale: h1 is `--text-step-5` (2.25rem by default), and h2 to h4 read steps 1 to 3. `survey.css` declares the same names in `@theme` as interface sizes (0.64rem to 0.8rem), so importing it into a cairn site sets every heading at 0.8rem or less, with no error. In the other direction, `components.css` reads `--text-step-1` in `.site-index-rail` and `--text-step-2` in `.site-collar`, which resolve to cairn's heading sizes in a cairn site. `cairn-theme/theme.css` works around it: `scripts/build` writes Survey's steps to `:root` as `--site-text-step-N` and declares them again under their Survey names only on `.site-collar` and `.site-index-rail`, and `.alert` gets back only steps 6 to 13, which cairn leaves free. Renaming the steps (for example to `--text-ui-N`) removes the workaround, but a rename is a major version, so it needs a ruling.
 - [ ] **#7** Add touch guidance for phone-width apps `#improvement` `#survey` *(2026-11-01)*
   Found in phonebook's voicemail prototype at 375px. `DESIGN.md` has no rule for touch targets, hover-only states, or form text size. `btn-sm` measured about 34px tall, and daisyUI's `input` measured 14.875px at phonebook's 17px root, which makes iOS Safari zoom on focus. Phonebook overrides both below `sm`. State a minimum target size, a 16px floor for field text, and a pressed state for anything that shows hover.
 - [ ] **#6** Give an audio player a treatment `#improvement` `#survey` *(2026-11-01)*

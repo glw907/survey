@@ -1,0 +1,111 @@
+/* Survey for cairn: the cairn site recipe in DESIGN.md, written over the chassis reading surface.
+   theme.css imports this file. Every value here is a Survey token or a cairn role, so a change to
+   tokens.json reaches it through theme.css. */
+
+/* Hairlines take Survey's border role. A later @theme declaration beats cairn-public.css's default. */
+@theme {
+  --color-card-border: var(--color-base-300);
+}
+
+:root {
+  /* The keys the chassis reads that nothing defaults. Each reads a role, so both schemes follow. */
+  --cairn-cta-bg: var(--color-base-200);
+  --cairn-cta-content: var(--color-base-content);
+  --cairn-cta-border: var(--color-base-300);
+  --cairn-cta-btn-bg: var(--color-primary);
+  --cairn-cta-btn-content: var(--color-primary-content);
+  --cairn-caption-tracking: 0;
+
+  /* Nothing casts a shadow. */
+  --cairn-shadow: none;
+}
+
+/* Recipe step 4: code takes its colors from the --site-code-* tokens. Ground, ink, border, and
+   punctuation keep cairn's defaults (base-200, base-content, base-300, muted). */
+:root,
+[data-theme] {
+  --cairn-code-comment: var(--site-code-comment);
+  --cairn-code-keyword: var(--site-code-keyword);
+  --cairn-code-string: var(--site-code-string);
+  --cairn-code-function: var(--site-code-function);
+  --cairn-code-number: var(--site-code-number);
+}
+
+/* Recipe steps 2 and 3, in prose.css's own layer: a later rule there beats the chassis rule with
+   the same selector, and a Tailwind utility on the element still wins. */
+@layer components {
+  /* Reading text is Spectral. Karla stays on navigation and forms. */
+  .prose {
+    font-family: var(--font-display);
+  }
+
+  .prose a {
+    font-weight: inherit;
+    color: var(--color-primary);
+    text-decoration-color: currentColor;
+    text-decoration-thickness: var(--spacing-1px);
+    text-underline-offset: var(--spacing-3px);
+    transition: color var(--motion-quick) var(--motion-ease);
+  }
+
+  .prose a:hover {
+    color: var(--color-accent);
+    text-decoration-color: currentColor;
+  }
+
+  .prose blockquote {
+    padding-left: var(--spacing-14px);
+    border-left: var(--spacing-2px) solid var(--color-secondary);
+    color: var(--color-muted);
+    font-family: var(--font-display);
+    font-style: italic;
+  }
+
+  .prose :not(pre) > code {
+    font-size: var(--text-step-inline-code);
+    background: var(--color-base-200);
+    border: 0;
+    border-radius: var(--radius-field);
+  }
+
+  /* The chassis draws a scroll-edge cue with two gradients; Survey has no gradients. */
+  .prose pre {
+    border: var(--border) solid var(--color-base-300);
+    border-radius: var(--radius-box);
+    padding: var(--spacing-10px) var(--spacing-12px);
+    background-image: none;
+  }
+
+  /* The alert directive takes Survey's alert: components.css draws the 4px status bar on a
+     base-200 field, so the chassis's 3px status border goes back to a plain 1px edge. The note and
+     caution roles name the bar's fill; the heading already reads the status ink. */
+  .prose .alert,
+  .prose .alert-caution {
+    border: var(--border) solid var(--color-base-300);
+  }
+
+  .prose .alert-note {
+    --alert-color: var(--color-info);
+  }
+
+  .prose .alert-caution {
+    --alert-color: var(--color-warning);
+  }
+
+  .prose .alert .cairn-alert-body {
+    padding: var(--spacing-6px) 0;
+  }
+
+  /* No all-caps labels. */
+  .prose .video-facade-platform {
+    text-transform: none;
+  }
+}
+
+/* No all-caps labels. The home and archive routes set their "Latest" and "Archive" eyebrows with
+   the `uppercase` utility, outside the theme directory and with no token behind it, so this rule
+   sits outside every layer to beat the utility. */
+.uppercase.tracking-eyebrow {
+  text-transform: none;
+  letter-spacing: normal;
+}

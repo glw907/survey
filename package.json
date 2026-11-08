@@ -6,6 +6,7 @@
   "repository": "github:glw907/survey",
   "files": [
     "theme",
+    "cairn-theme",
     "DESIGN.md"
   ],
   "devDependencies": {

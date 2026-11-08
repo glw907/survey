@@ -4,9 +4,15 @@ All notable changes to Survey are recorded here. The format follows [Keep a Chan
 
 ## [Unreleased]
 
+### Added
+
+- `cairn-theme/`, Survey as a cairn site theme: files that replace their namesakes in a cairn site's `src/theme/`. `scripts/build` writes its `theme.css` from `tokens.json`, and `survey-site.css` carries the cairn site recipe's prose, code, and alert rules. Its header, collar, and listing row draw four of the signature details. `cairn-theme/README.md` gives the install steps. The package now ships `cairn-theme/`.
+- Backlog item #8: Survey's `--text-step-*` names collide with cairn's reading scale, with the workaround `cairn-theme/theme.css` uses.
+
 ### Changed
 
 - A project reports a gap in `BACKLOG.md`. `FRICTION.md` is retired, and its open entries are backlog items #3 and #4.
+- `DESIGN.md`'s cairn site recipe points to `cairn-theme/`, and stops importing `survey.css` into a cairn site.
 
 ## [1.5.2] - 2026-10-27
 

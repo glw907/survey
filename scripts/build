@@ -84,6 +84,37 @@ const surveyVarsCss =
   `@media (prefers-color-scheme: dark) {\n  :root {\n${decls(tokens.color.dark, "    ")}\n  }\n}\n\n` +
   reducedMotion(false);
 
+// The cairn theme. cairn's chassis owns --text-step--2 through --text-step-5 as its reading scale
+// (h1 is --text-step-5), so Survey's numbered interface steps cannot sit in @theme under their own
+// names. They go on :root as --site-text-step-N, and each Survey component that reads a numbered
+// step gets them back under the old name on its own element. The alert can hold prose, so it takes
+// back only the steps the chassis leaves free, and its paragraphs and headings keep the reading scale.
+const CHASSIS_STEPS = new Set(["text-step-1", "text-step-2", "text-step-3", "text-step-4", "text-step-5"]);
+const numberedSteps = Object.keys(tokens.text).filter((n) => /^text-step-\d+$/.test(n));
+const freeSteps = numberedSteps.filter((n) => !CHASSIS_STEPS.has(n));
+const remap = (names) => names.map((n) => `  --${n}: var(--site-${n});`).join("\n");
+const siteSteps = Object.fromEntries(numberedSteps.map((n) => [`site-${n}`, tokens.text[n]]));
+const otherText = Object.fromEntries(Object.entries(tokens.text).filter(([n]) => !numberedSteps.includes(n)));
+
+const cairnThemeCss =
+  header("Survey for cairn: a site's src/theme/theme.css. See cairn-theme/README.md.") +
+  `/* The chassis token system comes first, then Survey's faces and components, then the cairn
+   site recipe's rules in survey-site.css. Install the survey package and its font packages first. */\n` +
+  `@import "../chassis/tokens.css";\n` +
+  `@import "survey/theme/fonts.css";\n` +
+  `@import "survey/theme/components.css";\n` +
+  `@import "./survey-site.css";\n\n` +
+  themeBlock({ name: "survey", isDefault: true, prefersDark: false, scheme: "light", colors: tokens.color.light }) +
+  `\n` +
+  themeBlock({ name: "survey-dark", isDefault: false, prefersDark: true, scheme: "dark", colors: tokens.color.dark }) +
+  `\n/* The faces, the heading weight, and Survey's spacing steps. The chassis keeps its reading scale. */\n` +
+  `@theme {\n${decls({ ...tokens.font, ...otherText, ...tokens.spacing })}\n}\n\n` +
+  `/* Survey's interface type steps, renamed clear of the chassis reading scale. */\n` +
+  `:root {\n${decls({ ...siteSteps, ...tokens.motion })}\n}\n\n` +
+  `.site-collar,\n.site-index-rail {\n${remap(numberedSteps)}\n}\n\n` +
+  `.alert {\n${remap(freeSteps)}\n}\n\n` +
+  reducedMotion(true);
+
 function tokenTable() {
   const modes = (name) => `| \`--${name}\` | \`${value(tokens.color.light[name])}\` | \`${value(tokens.color.dark[name])}\` |`;
   const one = ([name, t]) => `| \`--${name}\` | \`${value(t)}\` |`;
@@ -136,6 +167,7 @@ const designMd = `${before}${START}\n\n${tokenTable()}\n\n${END}${after}`;
 const outputs = {
   "theme/survey.css": surveyCss,
   "theme/survey-vars.css": surveyVarsCss,
+  "cairn-theme/theme.css": cairnThemeCss,
   "DESIGN.md": designMd,
 };
 

@@ -239,7 +239,9 @@ Motion: lean on daisyUI's stock motion for buttons, fields, toasts, drawers, and
 
 Use this for a public, reading-first site on cairn-cms.
 
-1. Take the admin recipe's imports.
+`cairn-theme/` carries out this recipe as a cairn site theme. Copy it into the site's `src/theme/` as `cairn-theme/README.md` describes, and you're done; the steps below say what it does. Don't import `theme/survey.css` into a cairn site: its `--text-step-*` names collide with cairn's reading scale (see backlog item #8).
+
+1. Take the admin recipe's fonts and components. `cairn-theme/theme.css` imports `theme/fonts.css` and `theme/components.css`, and builds the daisyUI themes from `tokens.json` itself.
 2. Point reading text at the display face (`font-display`), and keep Karla for navigation and forms.
 3. Style prose from the specimen's details: links in `--color-primary` with a 1px underline offset 3px; a blockquote in italic Spectral, `--color-muted`, with a 2px `--color-secondary` rule and 14px left padding; inline code on `base-200` with a 3px radius and `--text-step-inline-code`; a code block on `base-200` with a 1px `base-300` border, a 4px radius, and 10px 12px padding; and the current page in the nav underlined 6px below in `--site-contour`.
 4. Color code from the `--site-code-*` tokens: keyword, string, number, function, and comment.
