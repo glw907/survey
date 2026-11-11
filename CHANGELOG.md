@@ -4,6 +4,12 @@ All notable changes to Survey are recorded here. The format follows [Keep a Chan
 
 ## [Unreleased]
 
+## [1.7.0] - 2026-11-11
+
+### Changed
+
+- `writing-voice.md` drops from about 1,000 words to 600. Every tell keeps its rule and both dated rulings, and the explanation and repeated examples go.
+
 ## [1.6.0] - 2026-11-11
 
 ### Changed
