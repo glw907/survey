@@ -17,12 +17,12 @@ through the `writing-voice` skill. Imitate its exemplars rather than consult a r
 When Geoff corrects your wording, log it per the `survey` skill's "Corrections" section.
 
 Write in a plain, varied human voice. Flat rhythm is the strongest sign of machine-written
-prose, so vary sentence length and never run four medium clauses in a row.
+prose, so vary sentence length, never run four medium clauses in a row, and carry one idea per sentence.
 
 The em dash is banned in code comments, which are read in a monospace medium and typed and
 searched from a keyboard with no key for it. The linter enforces that. Developer docs follow
 Google (no surrounding spaces), editor copy Microsoft (sparing), and a reply or commit
-message goes without. Elsewhere end the sentence, or use a colon, comma, or parentheses.
+message goes without. Where it is out, use a period, colon, comma, or parentheses.
 Overuse is a tell anywhere.
 
 Avoid these structural habits:
@@ -34,12 +34,12 @@ Avoid these structural habits:
   ("Moreover, ..."). Start with the subject.
 - The trailing hinge: sentence after sentence that states a fact, then hangs a reason or
   consequence off the end (", since ...", ", which ...", ", so ..."). One is fine; a run is
-  the tell (Geoff, 2026-10-07). Fold the reason in, drop it, or shorten a sentence.
+  the tell (Geoff, 2026-10-07). Fold the reason in, drop it, or break the run.
 - The appositive stack: a noun, a comma appositive renaming it, then a ", which" or ", who"
   clause the reader can't place (Geoff, 2026-10-07). Split it into two sentences.
 - Restating a paragraph's point at its end.
 - Bullet lists where prose belongs. Bullets are for true enumerations; steps are numbered.
-- Scaffold headers ("Overview", "Conclusion") and a bolded lead phrase on every bullet.
+- Scaffold headers ("Overview", "Conclusion") and a bolded lead phrase on every bullet or paragraph.
 - The definitional pivot ("the honest test…", "the real question…"). Say the point plainly.
 - The two-headed heading: a heading naming two things with "and" or a colon is two
   sections. Page titles are exempt.
@@ -48,7 +48,7 @@ Avoid these structural habits:
 - The empty "own" ("the plugin's own settings page"). Cut it unless it marks a real
   contrast, as in the role-names example below.
 
-Marketing, slop, and filler words are tells everywhere. Vale is the net on docs prose.
+Marketing, slop, and filler words are tells everywhere.
 "Robust" is fine where exact.
 
 Code comments follow Go Doc Comments (go-conventions), TSDoc (ts-conventions,
