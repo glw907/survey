@@ -6,6 +6,7 @@ All notable changes to Survey are recorded here. The format follows [Keep a Chan
 
 ### Changed
 
+- `writing-voice.md` drops from about 1,000 words to 600. Every tell keeps its rule and both dated rulings, and the explanation and repeated examples go.
 - A project reports a gap in `BACKLOG.md`. `FRICTION.md` is retired, and its open entries are backlog items #3 and #4.
 
 ## [1.5.2] - 2026-10-27
