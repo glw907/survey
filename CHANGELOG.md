@@ -4,9 +4,18 @@ All notable changes to Survey are recorded here. The format follows [Keep a Chan
 
 ## [Unreleased]
 
+## [1.6.0] - 2026-11-11
+
 ### Changed
 
+- `approval-brief.md` gives a packet one style brief, "The packet writer's brief". It holds the text block in "Make reports easy to follow" on Anthropic's Fable 5.2 prompting page and five lines of house rules, and it replaces the packet contract, the packet skeleton, and the four packet exemplars. The PR-body and design brief rules and exemplars stay.
+- `approval-brief.md`'s "The merge permission" names the allow rule `Bash(approval-queue merge *)` in place of a `gh pr merge` rule.
+- "Releasing a change" in `skills/survey/SKILL.md` merges with `approval-queue merge <id>` and `approval-queue merge --premerge-done glw907/workstation#<n> <id>` in place of `gh pr merge`. The first command stops with exit 2 at the workstation PR's `## Before merge`, as expected.
 - A project reports a gap in `BACKLOG.md`. `FRICTION.md` is retired, and its open entries are backlog items #3 and #4.
+
+### Fixed
+
+- `authoring-charter.md`, `editor.md`, and `technical-doc-web.md` point at the cairn-cms files' current paths under `.claude/skills/`. They had named `docs/internal/` paths that no longer exist.
 
 ## [1.5.2] - 2026-10-27
 
