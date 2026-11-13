@@ -11,6 +11,8 @@
 
 ## Medium
 
+- [ ] **#8** Remove `writing/approval-brief.md` at the next release `#improvement` `#survey` *(2026-11-13)*
+  The workstation no longer reads the file: from round `ws-documents` (glw907/workstation#237), writing for Geoff follows the workstation's `~/.claude/docs/voice/written-for-people.md`, and the workstation's copy sits unused until a release drops it. Remove `skills/survey/writing/approval-brief.md`, and with it the `SKILL.md` table row at line 40 and the pointer at `skills/survey/writing/commit-and-pr.md:32`, which would otherwise name a file that is gone.
 - [ ] **#7** Add touch guidance for phone-width apps `#improvement` `#survey` *(2026-11-01)*
   Found in phonebook's voicemail prototype at 375px. `DESIGN.md` has no rule for touch targets, hover-only states, or form text size. `btn-sm` measured about 34px tall, and daisyUI's `input` measured 14.875px at phonebook's 17px root, which makes iOS Safari zoom on focus. Phonebook overrides both below `sm`. State a minimum target size, a 16px floor for field text, and a pressed state for anything that shows hover.
 - [ ] **#6** Give an audio player a treatment `#improvement` `#survey` *(2026-11-01)*
