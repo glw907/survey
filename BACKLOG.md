@@ -11,6 +11,9 @@
 
 ## Medium
 
+- [ ] **#9** Add the person-read default to the authoring charter's audience table `#improvement` `#survey` *(2026-11-13)*
+  `skills/survey/writing/authoring-charter.md:38-49` lists Google for developer docs and has no row for a page a person reads in a repo with no recorded rules. Geoff ruled on 2026-11-13 that `~/.claude/docs/voice/written-for-people.md` is the default there. The workstation's guide, router, global `CLAUDE.md`, and planner reference now say so (workstation backlog #91), and the charter is the one map that still omits it. Add the row, then release and vendor per the `survey` skill.
+
 - [ ] **#8** Remove `writing/approval-brief.md` at the next release `#improvement` `#survey` *(2026-11-13)*
   The workstation no longer reads the file: from round `ws-documents` (glw907/workstation#237), writing for Geoff follows the workstation's `~/.claude/docs/voice/written-for-people.md`, and the workstation's copy sits unused until a release drops it. Remove `skills/survey/writing/approval-brief.md`, and with it the `SKILL.md` table row at line 40 and the pointer at `skills/survey/writing/commit-and-pr.md:32`, which would otherwise name a file that is gone.
 - [ ] **#7** Add touch guidance for phone-width apps `#improvement` `#survey` *(2026-11-01)*
