@@ -14,6 +14,7 @@ It removes the plugin when its session ends, so a later session never finds a st
 """
 
 import argparse
+import hashlib
 import json
 import shutil
 import subprocess
@@ -48,10 +49,13 @@ def build(root, case, state):
 def settings(scratch, root):
     """Return the session's settings: the user's overrides with `survey` off, and the read denials.
 
-    The denials cover the workstation's vendored copy, its link under ~/.claude/skills, every
-    checkout or worktree of this repo, every other background job's folder that holds a copy, each
-    copy left in this job outside the session's own folder `root`, and the raw streams of earlier
-    sessions in this round, which hold the skill's text. The read rules also stop Grep and Glob.
+    The denials cover the workstation's vendored copy, its link under ~/.claude/skills, and every
+    copy under ~/Projects, which holds this repo's checkouts and the workstation's worktrees. They
+    cover every other background job's folder that holds a `skills/survey` folder, even a partial
+    one, and each such folder left in this job outside the session's folder `root`. They also
+    cover the raw streams of earlier sessions in this round, which hold the skill's text, and the
+    private survey-notes repo, whose corrections must stay out of this public repo's evidence.
+    The read rules also stop Grep and Glob.
     """
     try:
         user = json.loads((Path.home() / ".claude/settings.json").read_text())
@@ -60,16 +64,17 @@ def settings(scratch, root):
         merged = {}
     merged[SKILL] = "off"
     homes = {str(Path.home()), str(Path.home().resolve())}
-    globs = [".claude/skills/survey/**", ".dotfiles/**/skills/survey/**", "Projects/survey/**/skills/survey/**"]
+    globs = [".claude/skills/survey/**", ".dotfiles/**/skills/survey/**", "Projects/**/skills/survey/**",
+             "Projects/survey-notes/**"]
     home = Path.home().resolve()
     jobs = home / ".claude/jobs"
     own = {p for p in scratch.resolve().parents if p.parent == jobs}
-    for copy in jobs.glob(f"*/**/skills/{SKILL}/SKILL.md"):
+    for copy in jobs.glob(f"*/**/skills/{SKILL}"):
         job = jobs / copy.relative_to(jobs).parts[0]
         if job not in own:
             globs.append(f"{job.relative_to(home)}/**")
         elif not copy.is_relative_to(root.resolve()):
-            globs.append(f"{copy.parent.relative_to(home)}/**")
+            globs.append(f"{copy.relative_to(home)}/**")
     deny = sorted({f"Read(/{home}/{g})" for home in homes for g in globs})
     deny.append(f"Read(/{scratch.resolve()}/*.jsonl)")
     return {"skillOverrides": merged, "permissions": {"deny": deny}}
@@ -147,6 +152,7 @@ def main():
         "model": MODELS[args.model],
         "skill": args.state,
         "query": case["query"],
+        "skillSha256": hashlib.sha256((SKILL_DIR / "SKILL.md").read_bytes()).hexdigest(),
         "started": started.strftime("%Y-%m-%dT%H:%M:%SZ"),
         "seconds": seconds,
         "exitCode": run.returncode,

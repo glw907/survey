@@ -10,7 +10,7 @@ All notable changes to Survey are recorded here. The format follows [Keep a Chan
 - The release steps leave `SKILL.md` for `skills/survey/releasing.md`, which says a release starts only when Geoff asks for one and merges each PR with `gh pr merge` after his approval by number.
 - `commit-and-pr.md` sends a PR body for Geoff to `~/.claude/docs/voice/written-for-people.md` and a task's PR to the `building-from-specs` skill's section "The pull request". `agent-facing.md`'s log-event exemplar speaks of a change in place of a pass.
 - `agent-facing.md`, `commit-and-pr.md`, and `technical-doc-web.md` open with a contents list.
-- `skills/survey/evals/` holds four evaluations, the runner, and the evidence of each run.
+- `skills/survey/evals/` holds four evaluations, the runner, and the evidence of the round of record and two probes.
 
 ### Removed
 
