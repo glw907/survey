@@ -11,11 +11,15 @@
 
 ## Medium
 
+- [ ] **#10** Retire "the approval queue" in `DESIGN.md` and the theme comments `#improvement` `#survey` *(2026-11-21)*
+  `DESIGN.md:253` gives "the approval queue" as the Plain app recipe's example, and `DESIGN.md:336` names it beside the fade-in rule. `theme/components.css:2` and `theme/fonts.css:2` say it in comments. The alignment spec's end state is that no live file holds a retired word, and its Survey task covered only `skills/survey/`. Left alone, sessions keep quoting the retired app as the house example: the evaluation answers in PR #13 quote these lines, which is why that PR's retired-names search matches its saved evidence. Found by the diff-reviewer on PR #13.
+
 - [ ] **#9** Add the person-read default to the authoring charter's audience table `#improvement` `#survey` *(2026-11-13)*
   `skills/survey/writing/authoring-charter.md:38-49` lists Google for developer docs and has no row for a page a person reads in a repo with no recorded rules. Geoff ruled on 2026-11-13 that `~/.claude/docs/voice/written-for-people.md` is the default there. The workstation's guide, router, global `CLAUDE.md`, and planner reference now say so (workstation backlog #91), and the charter is the one map that still omits it. Add the row, then release and vendor per the `survey` skill.
 
-- [ ] **#8** Remove `writing/approval-brief.md` at the next release `#improvement` `#survey` *(2026-11-13)*
+- [x] **#8** Remove `writing/approval-brief.md` at the next release `#improvement` `#survey` *(2026-11-13)*
   The workstation no longer reads the file: from round `ws-documents` (glw907/workstation#237), writing for Geoff follows the workstation's `~/.claude/docs/voice/written-for-people.md`, and the workstation's copy sits unused until a release drops it. Remove `skills/survey/writing/approval-brief.md`, and with it the `SKILL.md` table row at line 40 and the pointer at `skills/survey/writing/commit-and-pr.md:32`, which would otherwise name a file that is gone.
+  Done: removed on the branch that moves the release steps to `releasing.md`, with the row and the pointer.
 - [ ] **#7** Add touch guidance for phone-width apps `#improvement` `#survey` *(2026-11-01)*
   Found in phonebook's voicemail prototype at 375px. `DESIGN.md` has no rule for touch targets, hover-only states, or form text size. `btn-sm` measured about 34px tall, and daisyUI's `input` measured 14.875px at phonebook's 17px root, which makes iOS Safari zoom on focus. Phonebook overrides both below `sm`. State a minimum target size, a 16px floor for field text, and a pressed state for anything that shows hover.
 - [ ] **#6** Give an audio player a treatment `#improvement` `#survey` *(2026-11-01)*
