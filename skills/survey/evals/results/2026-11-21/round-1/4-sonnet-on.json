@@ -1,0 +1,20 @@
+{
+  "case": 4,
+  "model": "claude-sonnet-5-5",
+  "skill": "on",
+  "query": "Write me a systemd service and timer pair that runs /usr/local/bin/nightly-backup every night at 2:00 local time, and say where each file goes.",
+  "started": "2026-11-22T00:44:57Z",
+  "seconds": 14.1,
+  "exitCode": 0,
+  "listed": [
+    "survey:survey"
+  ],
+  "invoked": [
+    "vps-conventions"
+  ],
+  "readSkillFile": false,
+  "otherCopyReads": [],
+  "loaded": false,
+  "result": "Both units are system-level, so they go in `/etc/systemd/system/`. On this host, `/etc` changes land in `~/.dotfiles/bluefin/etc/systemd/system/` first, so put the files there and install them from that copy. I haven't written either file.\n\n`nightly-backup.service`:\n\n```ini\n[Unit]\nDescription=Nightly backup\n\n[Service]\nType=oneshot\nExecStart=/usr/local/bin/nightly-backup\nStateDirectory=nightly-backup\nNoNewPrivileges=yes\nPrivateTmp=yes\nProtectSystem=strict\nReadWritePaths=/var/lib/nightly-backup\n```\n\n`nightly-backup.timer`:\n\n```ini\n[Unit]\nDescription=Run nightly-backup at 02:00\n\n[Timer]\nOnCalendar=*-*-* 02:00:00\nPersistent=true\nRandomizedDelaySec=5min\n\n[Install]\nWantedBy=timers.target\n```\n\nEnable the timer, not the service:\n\n```\nsudo -A systemctl daemon-reload\nsudo -A systemctl enable --now nightly-backup.timer\n```\n\nFour details to check:\n\n- **Write targets:** I don't know where `nightly-backup` writes. `ProtectSystem=strict` makes the whole filesystem read-only except `ReadWritePaths=`, so add its destination there, for example `/var/backups` or a mount point. Each listed path must exist before the unit starts, or startup fails with \"Failed to set up mount namespacing\". `StateDirectory=` creates `/var/lib/nightly-backup` itself, so that one is safe. If the script writes to your home directory, `ProtectSystem=strict` is the wrong fit and you should tell me.\n- **Persistent=true:** a desktop is often off at 2:00, so this runs the missed backup at the next boot.\n- **RandomizedDelaySec:** it can start the run up to five minutes after 02:00. Delete the line if you want it exactly on the minute.\n- **Verification:** run `systemd-analyze verify` on both files, then `systemctl list-timers nightly-backup.timer` to confirm the next run.\n\nIf you give me the backup's destination path, I'll fill in `ReadWritePaths=` and put the files in the dotfiles tree.",
+  "costUsd": 0.1046395
+}

@@ -1,0 +1,18 @@
+{
+  "case": 4,
+  "model": "claude-opus-5-5",
+  "skill": "off",
+  "query": "Write me a systemd service and timer pair that runs /usr/local/bin/nightly-backup every night at 2:00 local time, and say where each file goes.",
+  "started": "2026-11-22T00:45:42Z",
+  "seconds": 18.7,
+  "exitCode": 0,
+  "listed": [],
+  "invoked": [
+    "vps-conventions"
+  ],
+  "readSkillFile": false,
+  "otherCopyReads": [],
+  "loaded": false,
+  "result": "Both files go in `/etc/systemd/system/`, which is where locally written system units belong. Files under `/usr/lib/systemd/system/` belong to packages and get overwritten on updates.\n\n**`/etc/systemd/system/nightly-backup.service`**\n\n```ini\n[Unit]\nDescription=Nightly backup\nWants=network-online.target\nAfter=network-online.target\n\n[Service]\nType=oneshot\nExecStart=/usr/local/bin/nightly-backup\nNice=10\nIOSchedulingClass=idle\n\n# Hardening. ProtectSystem=strict makes the whole filesystem read-only,\n# so list every path the backup script writes to.\nNoNewPrivileges=yes\nPrivateTmp=yes\nProtectSystem=strict\nReadWritePaths=/var/backups /var/lib/nightly-backup\nStateDirectory=nightly-backup\n```\n\n**`/etc/systemd/system/nightly-backup.timer`**\n\n```ini\n[Unit]\nDescription=Run nightly backup at 02:00\n\n[Timer]\nOnCalendar=*-*-* 02:00:00\nPersistent=true\nUnit=nightly-backup.service\n\n[Install]\nWantedBy=timers.target\n```\n\nTo install it:\n\n```bash\nsudo systemd-analyze verify /etc/systemd/system/nightly-backup.{service,timer}\nsudo systemctl daemon-reload\nsudo systemctl enable --now nightly-backup.timer\nsystemctl list-timers nightly-backup.timer\n```\n\nOnly the timer gets enabled. The service has no `[Install]` section because the timer is what starts it.\n\nA few things to check before relying on it:\n\n- **`ReadWritePaths=`:** `/var/backups` is a placeholder. Change it to wherever the script actually writes. Each path in that list has to exist before the unit starts, or the unit fails with \"Failed to set up mount namespacing\". If the backup writes to many places, or to a mounted drive you'd rather not list, delete the `ProtectSystem=strict` and `ReadWritePaths=` lines.\n- **Missed runs:** `Persistent=true` means a run missed while the machine was off happens at the next boot. Remove it if you'd rather skip those nights.\n- **Exact start time:** I left out `RandomizedDelaySec=` so the backup starts at 2:00 as you asked. If several machines back up to the same target, `RandomizedDelaySec=10min` spreads them out.\n- **Time zone:** `OnCalendar` uses the system time zone. Run `timedatectl` to confirm it's the one you mean.\n- **Logs:** to see the last run's output, use `journalctl -u nightly-backup.service`.\n\nI haven't created any files on this machine. Tell me if you want me to install them here.",
+  "costUsd": 0.2043848
+}

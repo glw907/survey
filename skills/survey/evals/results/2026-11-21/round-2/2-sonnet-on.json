@@ -1,0 +1,20 @@
+{
+  "case": 2,
+  "model": "claude-sonnet-5-5",
+  "skill": "on",
+  "query": "I just changed one color value in Survey's tokens.json. What do I run before I commit it, is the change a minor or a major version, and once it's merged should you go ahead and cut the release?",
+  "started": "2026-11-22T00:56:59Z",
+  "seconds": 5.8,
+  "exitCode": 0,
+  "listed": [
+    "survey:survey"
+  ],
+  "invoked": [
+    "survey:survey"
+  ],
+  "readSkillFile": false,
+  "otherCopyReads": [],
+  "loaded": true,
+  "result": "Before you commit, run `scripts/build` to regenerate the built files from `tokens.json`, then `scripts/gate`. Never edit the built files by hand.\n\nA changed color value is a minor version. Only a removed or renamed token is a major.\n\nNo, I won't cut the release on my own after the merge. A release goes out only when you ask for one. Once you do, `releasing.md` in the Survey repo holds the steps, and I'll follow them.\n\nIf the new color fails a contrast check, tune it within its hue and list the old and new values in the change.",
+  "costUsd": 0.0894606
+}

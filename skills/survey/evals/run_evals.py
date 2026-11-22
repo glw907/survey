@@ -10,6 +10,7 @@ branch's copy through `--plugin-dir`, from a one-skill plugin named `survey`, wh
 folder. The evidence file keeps the query, the skills the session loaded, and its final answer.
 
 Clear the whole scratch root before each round: this script clears only its own session's folder.
+It removes the plugin when its session ends, so a later session never finds a stale copy there.
 """
 
 import argparse
@@ -44,11 +45,13 @@ def build(root, case, state):
     return proj, plugin
 
 
-def settings():
+def settings(scratch, root):
     """Return the session's settings: the user's overrides with `survey` off, and the read denials.
 
-    The denials cover the workstation's vendored copy, its link under ~/.claude/skills, and every
-    checkout or worktree of this repo, under both spellings of the home folder.
+    The denials cover the workstation's vendored copy, its link under ~/.claude/skills, every
+    checkout or worktree of this repo, every other background job's folder that holds a copy, each
+    copy left in this job outside the session's own folder `root`, and the raw streams of earlier
+    sessions in this round, which hold the skill's text. The read rules also stop Grep and Glob.
     """
     try:
         user = json.loads((Path.home() / ".claude/settings.json").read_text())
@@ -58,7 +61,17 @@ def settings():
     merged[SKILL] = "off"
     homes = {str(Path.home()), str(Path.home().resolve())}
     globs = [".claude/skills/survey/**", ".dotfiles/**/skills/survey/**", "Projects/survey/**/skills/survey/**"]
-    deny = sorted(f"Read(/{home}/{g})" for home in homes for g in globs)
+    home = Path.home().resolve()
+    jobs = home / ".claude/jobs"
+    own = {p for p in scratch.resolve().parents if p.parent == jobs}
+    for copy in jobs.glob(f"*/**/skills/{SKILL}/SKILL.md"):
+        job = jobs / copy.relative_to(jobs).parts[0]
+        if job not in own:
+            globs.append(f"{job.relative_to(home)}/**")
+        elif not copy.is_relative_to(root.resolve()):
+            globs.append(f"{copy.parent.relative_to(home)}/**")
+    deny = sorted({f"Read(/{home}/{g})" for home in homes for g in globs})
+    deny.append(f"Read(/{scratch.resolve()}/*.jsonl)")
     return {"skillOverrides": merged, "permissions": {"deny": deny}}
 
 
@@ -66,7 +79,8 @@ def evidence(lines, plugin):
     """Pull the skill calls, the listing, the reads of any survey copy, and the final answer.
 
     The skill counts as loaded when the session calls Skill on `survey:survey` or reads the
-    plugin copy's SKILL.md. A read of any other copy is kept apart, in `otherCopyReads`.
+    plugin copy's SKILL.md. A Read or Grep of any other copy is kept apart, in `otherCopyReads`,
+    whether or not the denial stopped it.
     """
     invoked, read, other, listed, result, cost = [], False, [], [], "", None
     for line in lines:
@@ -82,9 +96,10 @@ def evidence(lines, plugin):
                     continue
                 if part.get("name") == "Skill":
                     invoked.append(part.get("input", {}).get("skill", ""))
-                if part.get("name") == "Read":
-                    path = part.get("input", {}).get("file_path", "")
-                    if f"skills/{SKILL}/" not in path:
+                if part.get("name") in ("Read", "Grep"):
+                    tool_input = part.get("input", {})
+                    path = tool_input.get("file_path") or tool_input.get("path") or ""
+                    if f"skills/{SKILL}/" not in path.rstrip("/") + "/":
                         continue
                     if plugin and path.startswith(str(plugin)):
                         read = read or path.endswith("SKILL.md")
@@ -115,7 +130,7 @@ def main():
         "--model", MODELS[args.model], "--effort", "medium",
         "--output-format", "stream-json", "--verbose",
         "--tools", "Read,Glob,Grep,Skill",
-        "--settings", json.dumps(settings()),
+        "--settings", json.dumps(settings(args.scratch, proj.parent)),
         "--no-session-persistence",
     ]
     if plugin:
@@ -124,6 +139,8 @@ def main():
     clock = time.monotonic()
     run = subprocess.run(cmd, cwd=proj, capture_output=True, text=True, timeout=900)
     seconds = round(time.monotonic() - clock, 1)
+    if plugin:
+        shutil.rmtree(plugin)
     (args.scratch / f"{run_id}.jsonl").write_text(run.stdout)
     record = {
         "case": args.case,

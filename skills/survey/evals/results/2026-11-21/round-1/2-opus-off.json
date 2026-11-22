@@ -1,0 +1,16 @@
+{
+  "case": 2,
+  "model": "claude-opus-5-5",
+  "skill": "off",
+  "query": "I just changed one color value in Survey's tokens.json. What do I run before I commit it, is the change a minor or a major version, and once it's merged should you go ahead and cut the release?",
+  "started": "2026-11-22T00:42:07Z",
+  "seconds": 34.4,
+  "exitCode": 0,
+  "listed": [],
+  "invoked": [],
+  "readSkillFile": false,
+  "otherCopyReads": [],
+  "loaded": false,
+  "result": "You run two things before you commit, the change is a minor, and I won't cut the release on my own. I'll run it once you say go.\n\n**Before you commit.** From `~/Projects/survey`, run:\n\n1. `scripts/build`. This regenerates the theme files from `tokens.json`.\n2. `scripts/gate`. It checks that every built file matches `tokens.json`, then runs `cairn-audit`'s contrast check. Any contrast finding fails the gate, so a new color that is too faint against its background stops here. Run `npm install` first if `node_modules` is stale.\n\nCommit the regenerated files along with `tokens.json`. Also add a line under `## [Unreleased]` in `CHANGELOG.md`.\n\n**Minor or major.** It's a minor, 1.7.0 to 1.8.0. The rule at the top of `CHANGELOG.md` says a changed value or rule is a minor, and a removed or renamed one is a major. A new color value under an existing token name counts as changed.\n\nThere's one catch. Backlog item #8 says to remove `writing/approval-brief.md` \"at the next release.\" If that removal ships in the same release, the release becomes a major, 2.0.0.\n\n**Cutting the release.** This doesn't happen when your color PR merges. The version bump and the dated changelog entry go in their own PR, and only after that one merges does `scripts/release 1.8.0` run from a clean `main`. That script pushes a tag and publishes a GitHub release, which is outward-facing, so I'll wait for your go-ahead. Once you give it, I'll run both steps myself.\n\nI wasn't allowed to read the \"Releasing a change\" section in `skills/survey/SKILL.md`. If it adds steps after the tag, such as vendoring the release into the workstation, I'll follow it when we get there.",
+  "costUsd": 0.2903794
+}

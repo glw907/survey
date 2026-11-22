@@ -1,0 +1,20 @@
+{
+  "case": 2,
+  "model": "claude-haiku-5-5",
+  "skill": "on",
+  "query": "I just changed one color value in Survey's tokens.json. What do I run before I commit it, is the change a minor or a major version, and once it's merged should you go ahead and cut the release?",
+  "started": "2026-11-22T00:40:56Z",
+  "seconds": 8.9,
+  "exitCode": 0,
+  "listed": [
+    "survey:survey"
+  ],
+  "invoked": [
+    "survey:survey"
+  ],
+  "readSkillFile": false,
+  "otherCopyReads": [],
+  "loaded": true,
+  "result": "Run `scripts/build`, then `scripts/gate`, and commit only after the gate passes.\n\n1. `scripts/build` regenerates the built files from `tokens.json`. Never edit a built file by hand.\n2. `scripts/gate` is the pre-commit check.\n\nA changed color value is a **minor** version bump. A removed or renamed token would be major.\n\nI won't cut the release. Survey releases happen only when you ask for one, and the steps are in `releasing.md` in the Survey repo. Once the change is merged, tell me to cut it and I'll follow that file.\n\nThe `tokens.json` isn't in this working directory, which isn't a git repo. I didn't run anything. If you point me at the project or the Survey checkout, I'll run the build and gate there.",
+  "costUsd": 0.00542074
+}

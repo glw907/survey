@@ -1,6 +1,6 @@
 ---
 name: survey
-description: Routes house-tool UI work to the right Survey file, for a daisyUI theme, CSS variables, a recipe for the cairn admin, a cairn site, a plain app, or a theme-limited app. Survey is the house style, and this skill says where each of its pieces lives. It also logs each correction Geoff makes to Claude's wording. Use when building or styling any house tool's UI, when asked where Survey's pieces live, or when Geoff corrects your wording.
+description: Routes house-tool UI work to the right Survey file, for a daisyUI theme, CSS variables, a recipe for the cairn admin, a cairn site, a plain app, or a theme-limited app. Survey is the house style, and this skill says where each of its pieces lives. It also holds the steps for logging a correction to Claude's wording. Use when building or styling any house tool's UI, when asked where Survey's pieces live, or when the user corrects or rewrites your wording in a commit, a doc, or a reply, before you redo the work.
 ---
 
 # Survey

@@ -1,0 +1,18 @@
+{
+  "case": 2,
+  "model": "claude-opus-5-5",
+  "skill": "off",
+  "query": "I just changed one color value in Survey's tokens.json. What do I run before I commit it, is the change a minor or a major version, and once it's merged should you go ahead and cut the release?",
+  "started": "2026-11-22T01:06:42Z",
+  "seconds": 38.1,
+  "exitCode": 0,
+  "listed": [],
+  "invoked": [],
+  "readSkillFile": false,
+  "otherCopyReads": [
+    "/var/home/glw907/Projects/survey/skills/survey/SKILL.md"
+  ],
+  "loaded": false,
+  "result": "You run two scripts before you commit. The change is a minor version, 1.8.0. And I won't cut the release without your go-ahead, though once you give it I'll run it myself.\n\n**Before you commit**, from `~/Projects/survey`:\n\n1. `scripts/build` regenerates `theme/survey.css`, `theme/survey-vars.css`, and the token table in `DESIGN.md` from `tokens.json`.\n2. `scripts/gate` fails if any built file is out of date with `tokens.json`. It also runs `cairn-audit` and fails on any contrast finding. A new color can pass the build and still fail 4.5:1 for text or 3:1 for a control edge, so the gate is the check that counts. If `node_modules` is missing, run `npm install` first.\n\nCommit the built files along with `tokens.json`, and add a line under `## [Unreleased]` → `### Changed` in `CHANGELOG.md`.\n\n**Minor.** The CHANGELOG says \"a changed value or rule is a minor, and a removed or renamed one is a major.\" You changed a value and the token keeps its name. The last release was 1.7.0, so this one is 1.8.0.\n\n**The release.** The merge alone isn't enough. `scripts/release` only runs once a second PR has merged, one that sets `package.json` to `1.8.0` and dates the CHANGELOG entry. It checks both and refuses otherwise. After that it pushes a `v1.8.0` tag and publishes a GitHub release. Those are public and hard to take back, so I'd want your yes for this release before running it.\n\nOnce you approve, I'll open the version-bump PR. After you approve that PR by number, I'll merge it and run `scripts/release 1.8.0` from a clean `main`. Projects pinned to `#v1.7.0` won't change until they bump the pin.\n\nI couldn't read `skills/survey/SKILL.md` because the read permission was denied. Its \"Releasing a change\" section may add a step, so let me read it before the release.",
+  "costUsd": 0.4646486
+}

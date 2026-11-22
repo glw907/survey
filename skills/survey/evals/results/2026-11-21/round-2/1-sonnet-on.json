@@ -1,0 +1,20 @@
+{
+  "case": 1,
+  "model": "claude-sonnet-5-5",
+  "skill": "on",
+  "query": "I'm starting a small internal tool: a daisyUI 5 app that isn't on cairn, with a list page and a settings form. Which of the house style's files do I pull in, what do I read before I lay out the pages, and where do the button and text colors come from? Answer here; don't write any code yet.",
+  "started": "2026-11-22T00:53:29Z",
+  "seconds": 15.4,
+  "exitCode": 0,
+  "listed": [
+    "survey:survey"
+  ],
+  "invoked": [
+    "survey:survey"
+  ],
+  "readSkillFile": false,
+  "otherCopyReads": [],
+  "loaded": true,
+  "result": "This is a plain app in Survey's terms: a small daisyUI app that isn't on cairn. Say in your change that you followed the Plain app recipe in `DESIGN.md`.\n\n**Files to pull in**\n\nInstall `daisyui`, `tailwindcss`, and the three Fontsource packages that `theme/fonts.css` imports. Then install Survey itself pinned by tag, with `npm install github:glw907/survey#v<version>`. In the entry sheet, import Tailwind and activate the daisyUI plugin. After that, import three files in this order:\n\n1. `survey/theme/fonts.css`\n2. `survey/theme/survey.css`\n3. `survey/theme/components.css`\n\nYou skip `survey-vars.css`, which is only for apps that can't run daisyUI. Never edit `tokens.json` or a built file from the app. `survey` is the default theme, and `survey-dark` follows `prefers-color-scheme`. Set `data-theme` only if you must force a scheme.\n\n**What to read before laying out pages**\n\nRead `DESIGN.md` in `/var/home/glw907/Projects/survey` first. These parts apply to your app:\n\n- **Principles and Tokens.** These cover type, radii, and spacing.\n- **Signature details.** Use a `site-` class only for one of these. The benchmark triangle beside a page title and the index rail on a long alphabetical list are the two that suit a list page.\n- **Icons.** An icon goes beside the label of a frequent action. Cancel stays plain text.\n- **The Plain app recipe and the Motion section.** Take daisyUI's stock motion, and let page content appear at once. A save confirms with a toast.\n\nThe rest is stock daisyUI. Cancel is `btn btn-ghost`, and a destructive action is `btn btn-outline btn-error`. For component markup, the `standards:daisyui` skill is the reference.\n\n**Where button and text colors come from**\n\nThey come from the daisyUI theme variables in `survey.css`, which is built from `tokens.json`. Body text is `--color-base-content`, and the secondary gray, which is also the placeholder color, is `--color-muted`. A button's fill is its role color (`--color-primary`, `--color-secondary`, and so on). Its label uses the paired `-content` token, such as `--color-primary-content`. You don't set any of this per button, because daisyUI's `btn-primary` reads those variables. Any CSS you write yourself takes a token, like `var(--color-muted)`, never a hex literal.\n\nIf a pair fails WCAG contrast, tune it within its hue and list the old and new values in the change. File the gap in Survey's `BACKLOG.md` through `/log-issue`, then work around it in your CSS until Survey ships a fix.",
+  "costUsd": 0.1355194
+}

@@ -1,0 +1,20 @@
+{
+  "case": 1,
+  "model": "claude-sonnet-5-5",
+  "skill": "on",
+  "query": "I'm starting a small internal tool: a daisyUI 5 app that isn't on cairn, with a list page and a settings form. Which of the house style's files do I pull in, what do I read before I lay out the pages, and where do the button and text colors come from? Answer here; don't write any code yet.",
+  "started": "2026-11-22T00:38:22Z",
+  "seconds": 16.3,
+  "exitCode": 0,
+  "listed": [
+    "survey:survey"
+  ],
+  "invoked": [
+    "survey:survey"
+  ],
+  "readSkillFile": false,
+  "otherCopyReads": [],
+  "loaded": true,
+  "result": "Your app is the \"Plain app\" recipe in Survey's `DESIGN.md`, and I read that file to confirm it. I wrote no code.\n\n**Files to pull in**\n\nInstall Survey pinned by tag with `npm install github:glw907/survey#v<version>`. Also install `daisyui`, `tailwindcss`, and the three Fontsource packages that `fonts.css` imports. In your entry stylesheet, import Tailwind and activate the daisyUI plugin. Then import three files in this order:\n\n1. `survey/theme/fonts.css`\n2. `survey/theme/survey.css`\n3. `survey/theme/components.css`\n\nYou skip `survey-vars.css`, which is for apps that can't run daisyUI. Don't edit `tokens.json` or any built file. `tokens.json` is the one source, and the built files come from it.\n\nThe `survey` theme is the default, and `survey-dark` follows `prefers-color-scheme`. Set `data-theme` only if you need to force one scheme.\n\n**What to read before laying out the pages**\n\nRead `DESIGN.md` in full before you lay out anything. These parts matter most for your two pages:\n\n- **Principles.**\n- **Plain app recipe.** It reuses the cairn admin imports above.\n- **Signature details.** Use a `site-` class only for one of these.\n- **Icons.** A label sits beside nearly every icon, and not every button in a row gets one.\n- **Motion.** Take daisyUI's stock motion. The list and the form appear in place with no arrival animation, and a save confirms with a toast.\n\nBuild the screens from stock daisyUI components. Say in your change which recipe you followed, which is Plain app here.\n\n**Where button and text colors come from**\n\nThey come from tokens in the theme, not from literals you write.\n\n- **Text.** `--color-base-content` is the main text color, and `--color-muted` is secondary text and placeholders.\n- **Text on a filled button.** Each fill has a paired content token, such as `--color-primary-content`. daisyUI applies it for you on a stock `btn btn-primary`.\n- **Cancel and destructive buttons.** Cancel is a plain `btn btn-ghost`. A destructive action is `btn btn-outline btn-error`.\n- **Inputs.** `--site-field-bg` and `--site-field-border` give them their ground and a 3:1 edge.\n- **Your own CSS.** Write it with variables such as `var(--color-muted)` and `var(--spacing-8px)`.\n\nIf a pair fails WCAG contrast (4.5:1 for text, 3:1 for a control edge), tune it within its hue and list the old and new values in the change. Also file the gap in Survey's `BACKLOG.md` through `/log-issue`, then work around it in your CSS until Survey ships a fix.",
+  "costUsd": 0.21390859999999998
+}

@@ -1,0 +1,20 @@
+{
+  "case": 1,
+  "model": "claude-haiku-5-5",
+  "skill": "on",
+  "query": "I'm starting a small internal tool: a daisyUI 5 app that isn't on cairn, with a list page and a settings form. Which of the house style's files do I pull in, what do I read before I lay out the pages, and where do the button and text colors come from? Answer here; don't write any code yet.",
+  "started": "2026-11-22T01:02:36Z",
+  "seconds": 10.3,
+  "exitCode": 0,
+  "listed": [
+    "survey:survey"
+  ],
+  "invoked": [
+    "survey:survey"
+  ],
+  "readSkillFile": false,
+  "otherCopyReads": [],
+  "loaded": true,
+  "result": "Pull the Survey release at a git tag from `glw907/survey`, then take the theme files for your setup. Since this is a daisyUI 5 app, use `theme/survey.css`, `theme/components.css`, and `theme/fonts.css`. If you ever drop daisyUI, you'd swap in `theme/survey-vars.css` instead of the first two.\n\nBefore you lay out the list page or the settings form, read `DESIGN.md` in the Survey repo. It covers the principles, the token table, the signature details, icon guidance, one recipe per kind of app, and the motion rules. Pick the recipe that matches a small internal tool and say in your change which one you followed. I haven't opened the recipe list yet, so I can't name the exact recipe for you until I've read it.\n\nButton and text colors come from the tokens. `tokens.json` is the single source, and the built files in `theme/` are generated from it, so don't edit those by hand. In your CSS, take every color from a token and never write a literal. If you need a value changed, edit `tokens.json` in the Survey repo and run `scripts/build`. Before you commit, run `scripts/gate`. I haven't confirmed the exact token names yet, and I'd check them against the token table in `DESIGN.md` rather than guess.\n\nIf a value fails contrast, tune it within its own hue and list the old and new values in your change. If you find a gap in Survey, such as a state it doesn't style or a case its rules miss, file it in `BACKLOG.md` through `/log-issue` and work around it in the project's CSS, naming the backlog item.\n\nFor the words on the page, the writing standards live in `skills/survey/writing/`. The `writing-voice` skill chooses the right file for each audience. UI copy usually falls under `editor.md`.",
+  "costUsd": 0.00546814
+}

@@ -1,0 +1,20 @@
+{
+  "case": 3,
+  "model": "claude-sonnet-5-5",
+  "skill": "on",
+  "query": "Your last commit message says \"This change seamlessly streamlines the gate.\" I'd write \"This change makes the gate faster.\" Before you redo the commit, tell me exactly what you do with this correction: the file you write and its name, what goes in it, and the commands you run.",
+  "started": "2026-11-22T01:07:54Z",
+  "seconds": 13.3,
+  "exitCode": 0,
+  "listed": [
+    "survey:survey"
+  ],
+  "invoked": [
+    "survey:survey"
+  ],
+  "readSkillFile": false,
+  "otherCopyReads": [],
+  "loaded": true,
+  "result": "I'd log it before redoing the commit. A commit message's wording counts as a correction under the survey skill.\n\n**The file.** It goes in `/var/home/glw907/Projects/survey-notes/corrections/`. I first run `date +%FT%H%M%S` and `hostname -s`, then name the file `<YYYY-MM-DD>T<HHMMSS>-<host>.md`. The date is 2026-11-21 and the host is `pavilion`, so the name will look like `2026-11-21T153042-pavilion.md`, with the real time filled in. If `survey-notes` is missing, I run `gh repo clone glw907/survey-notes /var/home/glw907/Projects/survey-notes` first. If the clone or the write fails, I tell you and skip the log. I write the file nowhere else.\n\n**What goes in it.** The frontmatter holds `date`, `host`, `repo` and `audience`, plus the register file's name. The audience is a commit message, so the register file is `commit-and-pr.md`. Four sections follow:\n\n- **Before:** \"This change seamlessly streamlines the gate.\"\n- **After:** \"This change makes the gate faster.\"\n- **Context:** only the sentence around the wording, from the commit message. No secrets, mail, or third-party data.\n- **Reason:** \"not stated\". You gave no reason, and I don't supply one of my own.\n\n**The commands.** I run these in the same turn, exactly as written:\n\n1. `git -C /var/home/glw907/Projects/survey-notes add corrections/<file>`\n2. `git -C /var/home/glw907/Projects/survey-notes commit -m \"Log a correction\" -- corrections/<file>`\n3. `git -C /var/home/glw907/Projects/survey-notes pull --rebase`\n4. `git -C /var/home/glw907/Projects/survey-notes push`\n\nIf the pull or push fails, the commit stays local and the next correction's push carries it.\n\nAfter that I redo the commit with your wording, \"This change makes the gate faster.\"\n\nI have two gaps. This session's working directory isn't a git repository, and I have no record of making that commit here. So I can't fill the `repo` field or the Context sentence from what I can see. Tell me which repo the commit is in, and I'll read the message from there instead of reconstructing it.",
+  "costUsd": 0.1001431
+}

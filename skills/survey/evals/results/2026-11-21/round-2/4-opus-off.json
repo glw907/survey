@@ -1,0 +1,18 @@
+{
+  "case": 4,
+  "model": "claude-opus-5-5",
+  "skill": "off",
+  "query": "Write me a systemd service and timer pair that runs /usr/local/bin/nightly-backup every night at 2:00 local time, and say where each file goes.",
+  "started": "2026-11-22T01:01:35Z",
+  "seconds": 20.6,
+  "exitCode": 0,
+  "listed": [],
+  "invoked": [
+    "vps-conventions"
+  ],
+  "readSkillFile": false,
+  "otherCopyReads": [],
+  "loaded": false,
+  "result": "Both files go in `/etc/systemd/system/`, the directory for units you write yourself. The timer activates the service because the two share the base name `nightly-backup`.\n\n**`/etc/systemd/system/nightly-backup.service`**\n\n```ini\n[Unit]\nDescription=Nightly backup\nWants=network-online.target\nAfter=network-online.target\n\n[Service]\nType=oneshot\nExecStart=/usr/local/bin/nightly-backup\n\n# Hardening. ProtectSystem=strict mounts the whole filesystem read-only\n# for this unit, so list every path the script writes to.\nNoNewPrivileges=yes\nPrivateTmp=yes\nProtectSystem=strict\nReadWritePaths=/var/backups\n```\n\n**`/etc/systemd/system/nightly-backup.timer`**\n\n```ini\n[Unit]\nDescription=Run nightly-backup at 02:00 local time\n\n[Timer]\nOnCalendar=*-*-* 02:00:00\nAccuracySec=1min\nPersistent=true\n\n[Install]\nWantedBy=timers.target\n```\n\nChange `ReadWritePaths=` to the directories your script actually writes to, separated by spaces. Each one has to exist before the unit starts, or the service fails with \"Failed to set up mount namespacing.\" If you'd rather not list them, delete the `ProtectSystem` and `ReadWritePaths` lines.\n\nA few choices you might change:\n\n- `OnCalendar` uses the system time zone, so the run stays at 2:00 local time when daylight saving time changes.\n- `Persistent=true` catches up on a missed run. If the machine was off at 2:00, the backup runs at the next boot.\n- I left out `RandomizedDelaySec`, which spreads timer start times. It would move the start off exactly 2:00. `AccuracySec=1min` keeps the start within a minute of 2:00.\n- `Type=oneshot` makes systemd wait for the script to finish, so a long backup is never started twice.\n- The network lines are there in case the backup goes to a remote host. If it stays on local disks, you can delete them.\n\nTo install and enable it:\n\n```bash\nsudo systemd-analyze verify /etc/systemd/system/nightly-backup.{service,timer}\nsudo systemctl daemon-reload\nsudo systemctl enable --now nightly-backup.timer\nsystemctl list-timers nightly-backup.timer\n```\n\nTo test a run right away, use `sudo systemctl start nightly-backup.service`, then check the output with `journalctl -u nightly-backup.service`.\n\nIf these units are for pavilion, keep the copies in `~/.dotfiles/bluefin/etc/systemd/system/` first and put them in `/etc` from there. Bluefin keeps local `/etc` changes across updates, so the units will stay installed.",
+  "costUsd": 0.2045808
+}

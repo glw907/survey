@@ -1,0 +1,20 @@
+{
+  "case": 1,
+  "model": "claude-opus-5-5",
+  "skill": "on",
+  "query": "I'm starting a small internal tool: a daisyUI 5 app that isn't on cairn, with a list page and a settings form. Which of the house style's files do I pull in, what do I read before I lay out the pages, and where do the button and text colors come from? Answer here; don't write any code yet.",
+  "started": "2026-11-22T00:39:30Z",
+  "seconds": 25.7,
+  "exitCode": 0,
+  "listed": [
+    "survey:survey"
+  ],
+  "invoked": [
+    "survey:survey"
+  ],
+  "readSkillFile": false,
+  "otherCopyReads": [],
+  "loaded": true,
+  "result": "You want the **Plain app** recipe in Survey's `DESIGN.md`. It covers a small daisyUI app that isn't on cairn, and the approval queue is its example. Name that recipe in the change when you build.\n\n## Files to pull in\n\nInstall Survey from a release tag with `npm install github:glw907/survey#v<version>`. Also install `daisyui`, `tailwindcss`, the three Fontsource packages that `theme/fonts.css` imports, and `@lucide/svelte` if the app is Svelte and uses icons.\n\nIn the entry stylesheet, import Tailwind and turn on the daisyUI plugin. Then import these three files in this order:\n\n1. `survey/theme/fonts.css`\n2. `survey/theme/survey.css`\n3. `survey/theme/components.css`\n\nSkip `survey-vars.css`, which is only for apps that can't run daisyUI. Leave `data-theme` unset unless you need to force a scheme. Without it, `survey` is the default and `survey-dark` follows the system setting.\n\n## What to read before laying out the pages\n\nRead `DESIGN.md` first, all the way through. It's short, and these parts bear most on your two pages:\n\n- **Principles.** Use stock daisyUI components first. Use tokens, never literal values. No shadows, gradients, or all-caps labels. Text needs 4.5:1 contrast and control edges need 3:1.\n- **Signature details.** Put `site-benchmark` beside the page title and `site-contour-rule` under list groups. If the list is long and alphabetical, use `site-index-rail`.\n- **Icons.** Icons are Lucide at 16px beside text. A list row's kind icon is `--color-muted`. The house icon table gives `settings`, `plus`, `square-pen`, and so on. Cancel stays text with no icon.\n- **Motion.** Use daisyUI's stock motion. List and form content appears at once, with no fade-in on arrival. A list row's hover background changes instantly. A successful save confirms with a toast.\n\n## Where the colors come from\n\nEvery value comes from `tokens.json`. `scripts/build` compiles it into the daisyUI theme in `survey.css`. Never edit that built file, and never write a hex value in app CSS.\n\n**Buttons** take their colors from daisyUI's semantic classes, which the theme maps to tokens:\n\n| Button | Class | Colors |\n| --- | --- | --- |\n| Primary, such as Save | `btn btn-primary` | `--color-primary` fill and `--color-primary-content` text |\n| Cancel | `btn btn-ghost` | Plain ghost button |\n| Destructive | `btn btn-outline btn-error` | Error-colored outline |\n\nIn light mode the primary fill is a blue, `#1c5a8c`. You never type that value yourself.\n\n**Text** works the same way:\n\n- **Body text:** `--color-base-content`.\n- **Secondary text and placeholders:** `--color-muted`.\n- **Status text and its icon:** the `--cairn-*-ink` tokens, never the status fill.\n\n**Settings form fields** use `--site-field-bg` and `--site-field-border`. That border is what gives them their 3:1 edge.\n\nIf you write app CSS of your own, reference the variables, as in `var(--color-muted)` or `var(--spacing-8px)`.\n\nIf a value fails contrast or a state isn't styled, adjust it within its hue in your project CSS and list the old and new values. Then log the gap in Survey's `BACKLOG.md` through `/log-issue`.",
+  "costUsd": 0.460169
+}

@@ -1,0 +1,20 @@
+{
+  "case": 1,
+  "model": "claude-haiku-5-5",
+  "skill": "on",
+  "query": "I'm starting a small internal tool: a daisyUI 5 app that isn't on cairn, with a list page and a settings form. Which of the house style's files do I pull in, what do I read before I lay out the pages, and where do the button and text colors come from? Answer here; don't write any code yet.",
+  "started": "2026-11-22T00:37:54Z",
+  "seconds": 11.0,
+  "exitCode": 0,
+  "listed": [
+    "survey:survey"
+  ],
+  "invoked": [
+    "survey:survey"
+  ],
+  "readSkillFile": false,
+  "otherCopyReads": [],
+  "loaded": true,
+  "result": "For a daisyUI 5 app that isn't on cairn, you pull in three files from the Survey repo (`glw907/survey`, pinned by git tag):\n\n- `theme/survey.css`: the theme itself.\n- `theme/components.css`: the component styling on top of it.\n- `theme/fonts.css`: the font faces.\n\nDon't take `theme/survey-vars.css`. That file is for apps without daisyUI.\n\nBefore you lay out any page, read `DESIGN.md`, in this order:\n\n1. The principles.\n2. The token table.\n3. The recipe for a plain app. Your tool isn't a cairn admin or site, so this is the recipe that fits. Say in the change that you followed it.\n4. The motion rules, which say when motion earns its place.\n\nKeep `tokens.json` open as well. It is the one source of values, and you never edit a built file.\n\nThe button and text colors come from the token table in `DESIGN.md`, and the values behind those tokens live in `tokens.json`. Use the token, not a literal hex value. I haven't opened `theme/survey.css` in this session, so I can't confirm the exact daisyUI role names it maps those tokens to. Check that file before you write the first class.\n\nIf a Survey value fails contrast in your app, tune it within its hue and list the old and new values in the change. If you find a gap in Survey, file it in `BACKLOG.md` in the Survey repo through `/log-issue`, then work around it in the project's CSS and name the workaround.\n\nFor settings-form labels and help text, the writing register is editor copy. Load the `writing-voice` skill to pick the Survey file for that audience, which is `editor.md` for a non-technical reader.",
+  "costUsd": 0.005494800000000001
+}

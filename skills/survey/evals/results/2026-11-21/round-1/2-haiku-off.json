@@ -1,0 +1,16 @@
+{
+  "case": 2,
+  "model": "claude-haiku-5-5",
+  "skill": "off",
+  "query": "I just changed one color value in Survey's tokens.json. What do I run before I commit it, is the change a minor or a major version, and once it's merged should you go ahead and cut the release?",
+  "started": "2026-11-22T00:41:05Z",
+  "seconds": 25.1,
+  "exitCode": 0,
+  "listed": [],
+  "invoked": [],
+  "readSkillFile": false,
+  "otherCopyReads": [],
+  "loaded": false,
+  "result": "**Before you commit:** run `npm install` if you haven't since the last pull, then `scripts/build` and `scripts/gate`. `scripts/build` regenerates the built files from `tokens.json`, and the gate fails if they're stale or if any theme pair drops below contrast. Commit the regenerated files with your `tokens.json` change.\n\n**Version:** minor. The CHANGELOG's versioning rule says a changed value or rule is a minor bump, and only a removed or renamed one is a major. Survey is at 1.7.0, so this becomes 1.8.0. The one exception is if the color token was renamed or removed, which would make it major.\n\n**Release:** I wouldn't cut it on my own. Publishing a tag and GitHub release is outward-facing, and your rules say merges and releases wait for your go-ahead on the PR number. Here's the sequence:\n\n1. Put the `package.json` bump to 1.8.0 and a dated `## [1.8.0]` entry under a Changed heading in `CHANGELOG.md`. Add them to your change PR or a follow-up PR.\n2. Merge that PR, after you approve it by number.\n3. From a clean `main` at `origin/main` with `npm ci` done, run `scripts/release 1.8.0`. The script checks the branch, the clean tree, the version, and the CHANGELOG entry, runs the gate, tags `v1.8.0`, and creates the GitHub release.\n\nI could not read the \"Releasing a change\" section of `skills/survey/SKILL.md` in the repo, because the read was denied. Its release sequence may name steps beyond these, so check it before the release. I haven't run anything in the repo, so the gate and build results are not yet verified here.",
+  "costUsd": 0.011204030000000002
+}

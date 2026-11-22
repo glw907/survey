@@ -1,0 +1,18 @@
+{
+  "case": 4,
+  "model": "claude-sonnet-5-5",
+  "skill": "off",
+  "query": "Write me a systemd service and timer pair that runs /usr/local/bin/nightly-backup every night at 2:00 local time, and say where each file goes.",
+  "started": "2026-11-22T01:10:06Z",
+  "seconds": 13.9,
+  "exitCode": 0,
+  "listed": [],
+  "invoked": [
+    "vps-conventions"
+  ],
+  "readSkillFile": false,
+  "otherCopyReads": [],
+  "loaded": false,
+  "result": "Both files are system units. They go in `/etc/systemd/system/`, and per your dotfiles rule the source copies go in `~/.dotfiles/bluefin/etc/systemd/system/` first. I haven't written either location yet.\n\n`nightly-backup.service`:\n\n```ini\n[Unit]\nDescription=Nightly backup\nWants=network-online.target\nAfter=network-online.target\n\n[Service]\nType=oneshot\nExecStart=/usr/local/bin/nightly-backup\nNoNewPrivileges=yes\nPrivateTmp=yes\nProtectSystem=strict\nStateDirectory=nightly-backup\n# ReadWritePaths=/path/the/backup/writes/to\n```\n\n`nightly-backup.timer`:\n\n```ini\n[Unit]\nDescription=Run nightly-backup at 02:00\n\n[Timer]\nOnCalendar=*-*-* 02:00:00\nRandomizedDelaySec=2min\nPersistent=true\n\n[Install]\nWantedBy=timers.target\n```\n\n- **Time zone:** `OnCalendar` uses the machine's local time zone, so 02:00 means 02:00 on pavilion.\n- **Jitter:** `RandomizedDelaySec=2min` can start the run up to two minutes late. Set it to `0` if you want exactly 02:00.\n- **Missed runs:** `Persistent=true` runs a missed backup at the next boot if the machine was off at 02:00.\n- **Write access:** `ProtectSystem=strict` makes the whole filesystem read-only to the script, except `/var/lib/nightly-backup`, which `StateDirectory=` creates. I don't know where `nightly-backup` writes its output, so uncomment `ReadWritePaths=` and name that destination. The directory has to exist before the unit starts, or startup fails with a mount-namespacing error.\n- **Home directories:** The script can't write under `/home` with this hardening, and it can read it. If it needs different access, tell me and I'll adjust.\n\nTo activate, run `sudo systemctl daemon-reload` and then `sudo systemctl enable --now nightly-backup.timer`. I can write the dotfiles copies, stow them, run `systemd-analyze verify`, and enable the timer if you give me the go-ahead and the backup's destination path.",
+  "costUsd": 0.1040256
+}

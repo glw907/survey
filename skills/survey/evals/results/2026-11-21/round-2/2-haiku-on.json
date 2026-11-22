@@ -1,0 +1,20 @@
+{
+  "case": 2,
+  "model": "claude-haiku-5-5",
+  "skill": "on",
+  "query": "I just changed one color value in Survey's tokens.json. What do I run before I commit it, is the change a minor or a major version, and once it's merged should you go ahead and cut the release?",
+  "started": "2026-11-22T00:56:13Z",
+  "seconds": 11.8,
+  "exitCode": 0,
+  "listed": [
+    "survey:survey"
+  ],
+  "invoked": [
+    "survey:survey"
+  ],
+  "readSkillFile": false,
+  "otherCopyReads": [],
+  "loaded": true,
+  "result": "Run `scripts/build` first, then `scripts/gate`, both from the root of the Survey repo (`/var/home/glw907/Projects/survey`). `build` regenerates the theme files from `tokens.json`, and never edit those built files by hand. `gate` is the check to pass before the commit.\n\nA changed value is a minor version. A major bump is only for a removed or renamed token.\n\nI would not cut the release. Survey cuts a release only when you ask for one, and the steps live in `releasing.md`. The Glob search didn't list `releasing.md`, so I haven't read those steps. Check that the file is there before you ask for the cut.\n\nI haven't run either script or looked at your diff. I can run `build` and `gate` now and report what they say.",
+  "costUsd": 0.00652664
+}

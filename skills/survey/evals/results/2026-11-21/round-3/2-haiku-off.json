@@ -1,0 +1,16 @@
+{
+  "case": 2,
+  "model": "claude-haiku-5-5",
+  "skill": "off",
+  "query": "I just changed one color value in Survey's tokens.json. What do I run before I commit it, is the change a minor or a major version, and once it's merged should you go ahead and cut the release?",
+  "started": "2026-11-22T01:05:39Z",
+  "seconds": 23.0,
+  "exitCode": 0,
+  "listed": [],
+  "invoked": [],
+  "readSkillFile": false,
+  "otherCopyReads": [],
+  "loaded": false,
+  "result": "**Before you commit:** from the Survey repo root, run `npm install` if `node_modules` is missing, then:\n\n1. `scripts/build` regenerates `theme/survey.css`, `theme/survey-vars.css`, and the token table in `DESIGN.md` from `tokens.json`. Your color change doesn't reach the theme until this runs.\n2. `scripts/gate` checks that the built files are current and runs the theme contrast audit. It fails on any advisory finding, so a value that drops below the contrast floor will stop it.\n\nCommit `tokens.json` together with the regenerated files, staged by name. Otherwise the gate fails on the next run.\n\n**Version:** minor. The CHANGELOG header defines a changed value as a minor and a removed or renamed one as a major. Your change takes Survey from 1.7.0 to 1.8.0. The PR should add a `Changed` entry under `## [Unreleased]`, then date it as `[1.8.0]` and bump `package.json` to match. The release script checks for both.\n\n**Release:** I won't cut it on my own. A release pushes a tag and publishes a GitHub release that consuming projects pin, so it goes out to others. The process is that the PR merges first, then `scripts/release 1.8.0` runs from a clean `main`. Once you approve the PR by number, I can merge it and run the release if you tell me to go ahead.\n\nI only read the repo. I didn't run the build or the gate, and I didn't check `git status`, so I can't confirm which files your edit touched.",
+  "costUsd": 0.012559800000000001
+}

@@ -1,0 +1,18 @@
+{
+  "case": 1,
+  "model": "claude-haiku-5-5",
+  "skill": "off",
+  "query": "I'm starting a small internal tool: a daisyUI 5 app that isn't on cairn, with a list page and a settings form. Which of the house style's files do I pull in, what do I read before I lay out the pages, and where do the button and text colors come from? Answer here; don't write any code yet.",
+  "started": "2026-11-22T00:38:05Z",
+  "seconds": 16.8,
+  "exitCode": 0,
+  "listed": [],
+  "invoked": [
+    "standards:daisyui"
+  ],
+  "readSkillFile": false,
+  "otherCopyReads": [],
+  "loaded": false,
+  "result": "**Files to pull in:** the `standards:daisyui` skill is the whole house kit. Its guides are `install/`, `usage/`, `colors/`, `config/`, and `components/`. Install and config are one-time setup. Usage and colors apply to every line of markup. Components are read per use.\n\n**What to read before laying out pages:**\n\n1. `colors/SKILL.md` and `usage/SKILL.md`, in full. They hold the rules that matter most here.\n2. The component guides for the candidates. The skill requires reading more than one candidate before choosing. For the list page, that means `table` and `list`, and possibly `card`. For the settings form, `fieldset`, `input`, `select`, `toggle`, `checkbox`, `textarea`, and `validator`, plus `button` for save. If the shell needs navigation, read `navbar`, `menu`, or `drawer`.\n3. `install/SKILL.md` only if the project doesn't have daisyUI yet. It requires Tailwind CSS 4, no `tailwind.config.js`, and a CSS entry with `@import \"tailwindcss\";` and `@plugin \"daisyui\";`. If the app is SvelteKit, the install guide links the SvelteKit steps, and the Svelte MCP tools apply to the components.\n\nI did not find a separate house layout document for daisyUI pages in this skill. The `frontend-design` skill covers originating a look, and the usage rules point to Refactoring UI for spacing and hierarchy decisions. I didn't check the cairn or site repos for a layout standard, so if one exists there, it isn't covered by what I read.\n\n**Where the colors come from:**\n\n- Every color comes from a daisyUI semantic name: `primary`, `secondary`, `accent`, `neutral`, `base-100` through `base-300`, `base-content`, `info`, `success`, `warning`, `error`, and each one's `-content` partner. Each name is a theme variable, so it changes with the active theme.\n- Buttons take their color from these names. A plain `btn` is the default and is right unless the user asks for a variant. `btn btn-primary` is reserved for the single most important action on a page. The rule says to use `primary` once.\n- Text color is `text-base-content`, with an opacity modifier such as `/60` for secondary text. Don't use Tailwind grays like `text-gray-800`, because they break in dark themes. The page surfaces are `bg-base-100`, `bg-base-200`, and `bg-base-300`.\n- Don't add `dark:` to daisyUI color names. The themes handle it.\n- Fixed Tailwind colors such as `text-red-500` are the exception. Use them only when content must look the same in every theme, such as a chart or an icon.\n\n**Themes:** the default config enables `light` and `dark`. Pick others in `@plugin \"daisyui\" { themes: ...; }`. Put `data-theme` on `<html>`. A custom theme is a `@plugin \"daisyui/theme\"` block that defines every `--color-*`, radius, size, border, depth, and noise variable. Changing a built-in theme only needs the values you want to override.",
+  "costUsd": 0.008200240000000001
+}

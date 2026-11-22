@@ -1,0 +1,20 @@
+{
+  "case": 3,
+  "model": "claude-sonnet-5-5",
+  "skill": "on",
+  "query": "Your last commit message says \"This change seamlessly streamlines the gate.\" I'd write \"This change makes the gate faster.\" Before you redo the commit, tell me exactly what you do with this correction: the file you write and its name, what goes in it, and the commands you run.",
+  "started": "2026-11-22T00:43:13Z",
+  "seconds": 12.5,
+  "exitCode": 0,
+  "listed": [
+    "survey:survey"
+  ],
+  "invoked": [
+    "survey:survey"
+  ],
+  "readSkillFile": false,
+  "otherCopyReads": [],
+  "loaded": true,
+  "result": "Logging comes first, then the commit gets redone.\n\n**The file.** I run `date +%FT%H%M%S` and `hostname -s`, then write one file in `/var/home/glw907/Projects/survey-notes/corrections/`. Its name looks like `2026-11-21T143005-pavilion.md`, with the real time filled in. If `survey-notes` is missing, I run `gh repo clone glw907/survey-notes /var/home/glw907/Projects/survey-notes` first. Nothing is written anywhere else.\n\n**What goes in it.** The frontmatter holds `date: 2026-11-21`, `host: pavilion`, `repo`, `audience: commit message`, and `register: commit-and-pr.md`. The skill doesn't name the register key, so that key name is my choice. Four sections follow.\n\n- **Before:** \"This change seamlessly streamlines the gate.\"\n- **After:** \"This change makes the gate faster.\"\n- **Context:** the commit sentence itself, with no secrets or third-party data.\n- **Reason:** \"not stated\", because you gave none and I don't supply one.\n\nThis session's directory isn't a git repository, so I can't see that commit from here. I'd take the `repo` value, and confirm the wording, from the checkout that holds it.\n\n**The commands**, run in the same turn and exactly as written:\n\n1. `git -C /var/home/glw907/Projects/survey-notes add corrections/<file>`\n2. `git -C /var/home/glw907/Projects/survey-notes commit -m \"Log a correction\" -- corrections/<file>`\n3. `git -C /var/home/glw907/Projects/survey-notes pull --rebase`\n4. `git -C /var/home/glw907/Projects/survey-notes push`\n\nIf the pull or push fails, the commit stays local and the next correction's push carries it.\n\nAfter that I redo the commit message with your wording, staging files by name.",
+  "costUsd": 0.10048870000000001
+}

@@ -1,0 +1,20 @@
+{
+  "case": 3,
+  "model": "claude-opus-5-5",
+  "skill": "on",
+  "query": "Your last commit message says \"This change seamlessly streamlines the gate.\" I'd write \"This change makes the gate faster.\" Before you redo the commit, tell me exactly what you do with this correction: the file you write and its name, what goes in it, and the commands you run.",
+  "started": "2026-11-22T00:43:40Z",
+  "seconds": 20.9,
+  "exitCode": 0,
+  "listed": [
+    "survey:survey"
+  ],
+  "invoked": [
+    "survey:survey"
+  ],
+  "readSkillFile": false,
+  "otherCopyReads": [],
+  "loaded": true,
+  "result": "I log the correction before I touch the commit. The procedure comes from the `survey` skill's Corrections section, and I haven't run any of it yet.\n\n**The file.** I write one file to `/var/home/glw907/Projects/survey-notes/corrections/`. Its name comes from `date +%FT%H%M%S` and `hostname -s`, so on this machine it looks like `2026-11-21T<HHMMSS>-pavilion.md`. If the `survey-notes` checkout is missing, I first run `gh repo clone glw907/survey-notes /var/home/glw907/Projects/survey-notes`.\n\n**What goes in it.** The frontmatter holds these fields:\n\n```yaml\n---\ndate: 2026-11-21T<HHMMSS>\nhost: pavilion\nrepo: <repo the commit lives in>\naudience: commit message\nregister: commit-and-pr.md\n---\n```\n\nFour sections follow:\n\n- **Before:** \"This change seamlessly streamlines the gate.\" (verbatim)\n- **After:** \"This change makes the gate faster.\" (verbatim)\n- **Context:** the commit message sentence around the corrected one, and nothing else. It never holds secrets, tokens, mail, or anyone else's personal data.\n- **Reason:** \"not stated.\" You named no reason, and I don't add one of my own. The words look like the marketing tells the voice rules ban, but that's my reading, not yours, so it stays out of the file.\n\nThere's a gap I need to raise. This session's working directory isn't a git repository, and I can't see the commit you mean from here. I'll fill in `repo` and Context from the repo that holds the commit. Tell me its path if it isn't obvious.\n\n**The commands.** I run these in the same turn, exactly as written, so the allow rules match:\n\n1. `git -C /var/home/glw907/Projects/survey-notes add corrections/<file>`\n2. `git -C /var/home/glw907/Projects/survey-notes commit -m \"Log a correction\" -- corrections/<file>`\n3. `git -C /var/home/glw907/Projects/survey-notes pull --rebase`\n4. `git -C /var/home/glw907/Projects/survey-notes push`\n\nIf the pull or push fails, the commit stays local and the next correction's push carries it. If the clone or the write fails, I tell you and skip the log. I never write the file anywhere else.\n\nAfter logging, I redo the commit in its own repo with your sentence in place of mine. If it's the latest commit and hasn't been pushed, that's `git commit --amend`. If it has been pushed, I'll check with you before rewriting it.",
+  "costUsd": 0.198219
+}

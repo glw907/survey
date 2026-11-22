@@ -1,0 +1,20 @@
+{
+  "case": 4,
+  "model": "claude-sonnet-5-5",
+  "skill": "on",
+  "query": "Write me a systemd service and timer pair that runs /usr/local/bin/nightly-backup every night at 2:00 local time, and say where each file goes.",
+  "started": "2026-11-22T01:09:52Z",
+  "seconds": 13.2,
+  "exitCode": 0,
+  "listed": [
+    "survey:survey"
+  ],
+  "invoked": [
+    "vps-conventions"
+  ],
+  "readSkillFile": false,
+  "otherCopyReads": [],
+  "loaded": false,
+  "result": "Both files are system units, so they go in `/etc/systemd/system/`. Because you keep `/etc` changes in the dotfiles, they land first in `~/.dotfiles/bluefin/etc/systemd/system/`.\n\n`/etc/systemd/system/nightly-backup.service`\n\n```ini\n[Unit]\nDescription=Nightly backup\nAfter=network-online.target\nWants=network-online.target\n\n[Service]\nType=oneshot\nExecStart=/usr/local/bin/nightly-backup\nStateDirectory=nightly-backup\nNoNewPrivileges=yes\nPrivateTmp=yes\nProtectSystem=strict\n# Add every path the script writes to, e.g. ReadWritePaths=/var/backups\n# Each one must exist before the unit starts.\n```\n\n`/etc/systemd/system/nightly-backup.timer`\n\n```ini\n[Unit]\nDescription=Run nightly-backup at 02:00\n\n[Timer]\nOnCalendar=*-*-* 02:00:00\nRandomizedDelaySec=5min\nPersistent=true\n\n[Install]\nWantedBy=timers.target\n```\n\nThe timer is the only unit you enable: `sudo -A systemctl enable --now nightly-backup.timer`. The service has no `[Install]` section, because the timer starts it.\n\n- **Write targets:** I didn't know where the script writes, so the service sets `ReadWritePaths=` to nothing. Under `ProtectSystem=strict` the whole filesystem is read-only except `/var/lib/nightly-backup`, which `StateDirectory=` creates and makes writable. If the script writes elsewhere, such as a backup destination, add that path to `ReadWritePaths=` and create it first. Otherwise the unit fails with \"Failed to set up mount namespacing\".\n- **Start time:** `RandomizedDelaySec=5min` means the run starts between 02:00 and 02:05. Drop that line if you need 02:00 exactly.\n- **Missed runs:** `Persistent=true` runs a missed backup at the next boot. That matters on a desktop that's off at 2:00.\n- **Checking:** `systemd-analyze verify` on both files catches syntax errors before you enable them. `systemctl list-timers nightly-backup.timer` shows the next run.\n\nIf you want, I can put the files in the dotfiles tree, stow them, run the verify step, and enable the timer.",
+  "costUsd": 0.1028199
+}

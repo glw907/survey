@@ -1,0 +1,16 @@
+{
+  "case": 2,
+  "model": "claude-haiku-5-5",
+  "skill": "off",
+  "query": "I just changed one color value in Survey's tokens.json. What do I run before I commit it, is the change a minor or a major version, and once it's merged should you go ahead and cut the release?",
+  "started": "2026-11-22T00:56:26Z",
+  "seconds": 31.8,
+  "exitCode": 0,
+  "listed": [],
+  "invoked": [],
+  "readSkillFile": false,
+  "otherCopyReads": [],
+  "loaded": false,
+  "result": "**Before committing:** in `~/Projects/survey`, run `npm install` if you haven't yet, then:\n\n1. `node scripts/build` regenerates `theme/survey.css`, `theme/survey-vars.css`, and the token table in `DESIGN.md` from `tokens.json`. Those built files are committed, so they belong in the same commit.\n2. `scripts/gate` runs `scripts/build --check` and the theme contrast audit. It fails if a built file is stale or a color pair falls below the contrast floor.\n\nSeveral color tokens carry a `$description` with a measured contrast ratio, such as `site-field-border` and `site-code-comment`. The gate catches a failing pair, but it won't catch a note that quotes an old ratio, so check those numbers if you changed one of them.\n\n**Version:** minor. The CHANGELOG says a changed value or rule is a minor, and only a removed or renamed one is a major. This takes 1.7.0 to 1.8.0.\n\n**Release:** I won't cut it after the merge on my own. Tagging and creating a GitHub release publish outward, and merges go through you by PR number. The release also depends on the PR itself. `scripts/release` refuses to run unless `package.json` already says the new version and `CHANGELOG.md` has a dated entry for it on main. So I'd put the token change, the rebuilt files, the `1.8.0` bump, and the changelog entry in one PR. Once you approve it by number and it merges, I'll run `scripts/release 1.8.0` from a clean `main` at `origin/main` if you say go.\n\nI haven't run the gate or looked at your diff. I only read the repo's scripts, README, and CHANGELOG to answer this.",
+  "costUsd": 0.01801192
+}
