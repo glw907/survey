@@ -11,6 +11,9 @@
 
 ## Medium
 
+- [ ] **#10** Retire "the approval queue" in `DESIGN.md` and the theme comments `#improvement` `#survey` *(2026-11-21)*
+  `DESIGN.md:253` gives "the approval queue" as the Plain app recipe's example, and `DESIGN.md:336` names it beside the fade-in rule. `theme/components.css:2` and `theme/fonts.css:2` say it in comments. The alignment spec's end state is that no live file holds a retired word, and its Survey task covered only `skills/survey/`. Left alone, sessions keep quoting the retired app as the house example: the evaluation answers in PR #13 quote these lines, which is why that PR's retired-names search matches its saved evidence. Found by the diff-reviewer on PR #13.
+
 - [ ] **#9** Add the person-read default to the authoring charter's audience table `#improvement` `#survey` *(2026-11-13)*
   `skills/survey/writing/authoring-charter.md:38-49` lists Google for developer docs and has no row for a page a person reads in a repo with no recorded rules. Geoff ruled on 2026-11-13 that `~/.claude/docs/voice/written-for-people.md` is the default there. The workstation's guide, router, global `CLAUDE.md`, and planner reference now say so (workstation backlog #91), and the charter is the one map that still omits it. Add the row, then release and vendor per the `survey` skill.
 
