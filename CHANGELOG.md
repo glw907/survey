@@ -4,6 +4,8 @@ All notable changes to Survey are recorded here. The format follows [Keep a Chan
 
 ## [Unreleased]
 
+## [2.0.0] - 2026-11-21
+
 ### Changed
 
 - The skill's description is in the third person, and says what the skill does before when to use it. It names a correction to Claude's wording in a commit, a doc, or a reply as a reason to load the skill.
