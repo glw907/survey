@@ -42,7 +42,7 @@ A session loaded the skill when it called Skill on `survey:survey` or read the p
 `otherCopyReads`. Round 3 has one: `2-opus-off` tried the main checkout's `SKILL.md`, and the
 denial stopped it ("I couldn't read `skills/survey/SKILL.md` because the read permission was
 denied"). `3-opus-off` also grepped `skills/survey` in another job's scratch folder. That folder
-holds only an old `writing/approval-brief.md` and no `SKILL.md`, so the denial didn't cover it. The
+holds one old file under `writing/` and no `SKILL.md`, so the denial didn't cover it. The
 grep for "corrections" found no match, and the session met none of the case's behaviors. The runner
 missed that grep because the path had no trailing slash. It now counts a path that ends in
 `skills/survey`, a fix made after round 3 ran, so I counted this one grep by hand from the raw stream.
